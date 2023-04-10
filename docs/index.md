@@ -7,10 +7,7 @@ hero:
   actions:
     - theme: brand
       text: 让我们开始快乐的学习吧
-      link: /HTML/
-    - theme: alt
-      text: View on GitHub
-      link: https://github.com/vuejs/vitepress
+      link: /Java/基础/1-面向对象
 features:
   - title: Widely
     details: 涵盖了后端几乎所有方面的知识点,技术面试，一个网站足矣。

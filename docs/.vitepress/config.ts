@@ -6,6 +6,8 @@ export default {
     // // 打包目录
     // dest: './dist',
     base: '/myblog/',
+    lastUpdated: true,
+    cleanUrls: true,
     // 头部head
     // head: [
     //     // 添加图标
@@ -14,18 +16,20 @@ export default {
     //         href: '/favicon.ico'
     //     }]
     // ],
+    head: [
+        ['meta', {name: 'theme-color', content: '#3c8772'}],
+        [
+            'script',
+            {
+                src: 'https://cdn.usefathom.com/script.js',
+                'data-site': 'AZBRSFGG',
+                'data-spa': 'auto',
+                defer: ''
+            },
+        ]
+    ],
     // 主题配置
     themeConfig: {
-        // 获取每个文件最后一次 git 提交的 UNIX 时间戳(ms)，同时它将以合适的日期格式显示在每一页的底部
-        lastUpdated: 'Last Updated', // string | boolean
-        // 启动页面丝滑滚动
-        smoothScroll: true,
-        logo: '/logo.jpeg',
-        docsDir: 'docs',
-        docsBranch: 'main',
-        editLinks: true,
-        editLinkText: '欢迎帮助我们改善页面!',
-
         // 导航栏配置
         nav: [
             {
@@ -37,19 +41,139 @@ export default {
             },
             {
                 text: 'Java', items: [
-                    {text: 'HTML', link: '/HTML/'},
-                    {text: 'CSS', link: '/CSS/'},
-                    {text: 'Vue', link: '/Vue/'}
+                    {text: 'Java基础', link: '/Java/基础/面向对象'},
+                    {text: 'Spring', link: '/CSS/'},
+                    {text: 'SpringBoot', link: '/Vue/'},
+                    {text: 'SpringMVC', link: '/Vue/'},
+                    {text: 'Mybatis', link: '/Vue/'},
+                    {text: 'Mybatis', link: '/Vue/'},
                 ]
             },
-            {text: 'HTML', link: '/HTML/'},
-            {text: 'CSS', link: '/CSS/'},
+            {
+                text: 'Spring全家桶', items: [
+                    {text: 'Spring', link: '/CSS/'},
+                    {text: 'SpringBoot', link: '/Vue/'},
+                    {text: 'SpringMVC', link: '/Vue/'},
+                    {text: 'Mybatis', link: '/Vue/'},
+                ]
+            },
+            {
+                text: '分布式中间件', items: [
+                    {
+                        text: '分布式事务',
+                        items: [
+                            {text: '分布式事务详解', link: '/分布式中间件/分布式事务/分布式事务详解'},
+                        ]
+                    },
+                    {
+                        text: '分布式会话',
+                        items: [
+                            {text: '分布式会话详解', link: '/分布式中间件/分布式会话/分布式会话详解'},
+                        ]
+                    },
+                    {
+                        text: '分布式唯一ID',
+                        items: [
+                            {text: '分布式唯一ID详解', link: '/分布式中间件/分布式唯一ID/分布式唯一ID详解'},
+                        ]
+                    },
+                    {
+                        text: '分布式幂等性',
+                        items: [
+                            {text: '分布式幂等性详解', link: '/分布式中间件/分布式幂等性/分布式幂等性详解'},
+                        ]
+                    },
+                    {
+                        text: '分布式搜索',
+                        items: [
+                            {text: 'ElasticSearch', link: '/分布式中间件/分布式搜索/ElasticSearch'},
+                        ]
+                    },
+                    {
+                        text: '分布式文件存储',
+                        items: [
+                            {text: 'FastFDS', link: '/分布式中间件/分布式文件存储/FastFDS.md'},
+                            {text: 'Oss', link: '/分布式中间件/分布式文件存储/Oss'},
+                            {text: '七牛云', link: '/分布式中间件/分布式文件存储/七牛云'},
+                        ]
+                    },
+                    {
+                        text: '分布式权限控制与安全认证',
+                        items: [
+                            {text: 'Spring Security', link: '/分布式中间件/分布式权限控制与安全认证/Spring Security.md'},
+                            {text: 'Shiro', link: '/分布式中间件/分布式权限控制与安全认证/Shiro'},
+                            {text: '七牛云', link: '/分布式中间件/分布式文件存储/七牛云'},
+                        ]
+                    },
+                    {
+                        text: '分布式消息',
+                        items: [
+                            {text: 'Kafka', link: '/分布式中间件/分布式消息/Kafka'},
+                            {text: 'RabbitMQ', link: '/分布式中间件/分布式消息/RabbitMQ'},
+                            {text: 'RocketMQ', link: '/分布式中间件/分布式消息/RocketMQ'}
+
+                        ]
+                    },
+                    {
+                        text: '分布式缓存',
+                        items: [
+                            {text: 'Redis', link: '/分布式中间件/分布式缓存/Redis'},
+                            {text: 'MongoDB', link: '/分布式中间件/分布式缓存/MongoDB'}
+                        ]
+                    },
+                    {
+                        text: '分布式重试机制',
+                        items: [
+                            {text: 'Guava-Retry', link: '/分布式中间件/分布式重试机制/Guava-Retry'},
+                            {text: 'Spring-Retry', link: '/分布式中间件/分布式重试机制/Spring-Retry'}
+                        ]
+                    },
+                    {
+                        text: '分布式锁',
+                        items: [
+                            {text: '分布式锁详解', link: '/分布式中间件/分布式锁/分布式锁详解'}
+                        ]
+                    },
+                    {
+                        text: '分布式限流',
+                        items: [
+                            {text: '分布式限流', link: '/分布式中间件/分布式限流/分布式限流'}
+                        ]
+                    },
+                    {
+                        text: '分库分表',
+                        items: [
+                            {text: 'MyCat', link: '/分布式中间件/分库分表/MyCat'},
+                            {text: 'ShardingSphere之实践4', link: '/分布式中间件/分库分表/ShardingSphere之实践4'},
+                            {text: 'ShardingSphere之实践5', link: '/分布式中间件/分库分表/ShardingSphere之实践5'}
+                        ]
+                    },
+
+                ]
+            },
+            {
+                text: '协同开发', items: [
+                    {text: 'Git', link: '/CSS/'},
+                    {text: 'Maven', link: '/Vue/'},
+                ]
+            },
+            {
+                text: '线上环境', items: [
+                    {text: 'Linux', link: '/CSS/'},
+                ]
+            },
+            {
+                text: '环境', items: [
+                    {text: 'Linux', link: '/CSS/'},
+                ]
+            },
+
         ],
         sidebar: {
-            '/HTML/': [
+            '/Java/': [
                 {
-                    text: 'HTML', items: [
-                        {text: '开始', link: '/HTML/'},
+                    text: 'Java基础', items: [
+                        {text: '面向对象', link: '/Java/1-面向对象.md'},
                         {text: '进阶', link: '/HTML/advanced'},
                     ]
                 }
@@ -62,112 +186,6 @@ export default {
                     ]
                 }
             ],
-            '/':getSidebar()
         }
     }
-}
-
-function getSidebar() {
-    return [{
-        text: 'HTML',
-        children: [{
-            text: '基础',
-            link: '/HTML/'
-        },
-            {
-                text: '进阶',
-                link: '/HTML/advanced'
-            },
-        ],
-        sidebarDepth: 3
-    },
-        {
-            text: 'CSS',
-            children: [{
-                text: '基础',
-                link: '/CSS/'
-            },
-                {
-                    text: '进阶',
-                    link: '/CSS/advanced'
-                },
-            ]
-        },
-        {
-            text: 'Javascript',
-            children: [{
-                text: '基础',
-                link: '/Javascript/'
-            },
-                {
-                    text: '进阶',
-                    link: '/Javascript/advanced'
-                },
-                {
-                    text: '进阶',
-                    link: '/Javascript/nightmare'
-                },
-            ]
-        },
-        {
-            text: 'Vue',
-            children: [{
-                text: '基础',
-                link: '/Vue/'
-            },
-                {
-                    text: '进阶',
-                    link: '/Vue/advanced'
-                },
-            ]
-        },
-        {
-            text: '浏览器',
-            children: [{
-                text: '基础',
-                link: '/Vue/'
-            },
-                {
-                    text: '进阶',
-                    link: '/Vue/advanced'
-                },
-            ]
-        },
-        {
-            text: '网络',
-            children: [{
-                text: '基础',
-                link: '/Network/'
-            },
-                {
-                    text: '进阶',
-                    link: '/Network/advanced'
-                },
-            ]
-        },
-        {
-            text: '安全',
-            children: [{
-                text: '基础',
-                link: '/Security/'
-            },
-                {
-                    text: '进阶',
-                    link: '/Security/advanced'
-                },
-            ]
-        },
-        {
-            text: '面经',
-            children: [{
-                text: '基础',
-                link: '/Experience/'
-            },
-                {
-                    text: '进阶',
-                    link: '/Experience/advanced'
-                },
-            ]
-        },
-    ]
 }
