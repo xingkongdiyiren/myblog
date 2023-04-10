@@ -8,6 +8,9 @@ hero:
     - theme: brand
       text: 让我们开始快乐的学习吧
       link: /Java/基础/1-面向对象
+    - theme: alt
+      text: 知识星球（一起学习，100块入门劵）
+      link: https://t.zsxq.com/0cCPM3RP1
 features:
   - title: Widely
     details: 涵盖了后端几乎所有方面的知识点,技术面试，一个网站足矣。
