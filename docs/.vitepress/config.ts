@@ -58,7 +58,9 @@ export default {
                 ]
             },
             {
-                text: '分布式中间件', items: [
+                text: '分布式中间件',
+
+                items: [
                     {
                         text: '分布式事务',
                         items: [
@@ -102,7 +104,6 @@ export default {
                         items: [
                             {text: 'Spring Security', link: '/分布式中间件/分布式权限控制与安全认证/Spring Security.md'},
                             {text: 'Shiro', link: '/分布式中间件/分布式权限控制与安全认证/Shiro'},
-                            {text: '七牛云', link: '/分布式中间件/分布式文件存储/七牛云'},
                         ]
                     },
                     {
