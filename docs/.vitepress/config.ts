@@ -9,13 +9,13 @@ export default {
     lastUpdated: true,
     cleanUrls: true,
     // 头部head
-    // head: [
-    //     // 添加图标
-    //     ['link', {
-    //         rel: 'icon',
-    //         href: '/favicon.ico'
-    //     }]
-    // ],
+    algolia: {
+        appId: '4U7RZD5OL6',
+        apiKey: '7831c2e3569defa8d0028d760ce1df85',
+        indexName: 'searchapi',
+        placeholder: '请输入关键词',
+        buttonText: '搜索',
+    },
     head: [
         ['meta', {name: 'theme-color', content: '#3c8772'}],
         [

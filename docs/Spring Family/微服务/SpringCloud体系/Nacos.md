@@ -2230,7 +2230,8 @@ BASE 是 **Basically Available(基本可用)、Soft state(软状态)和 Eventual
 
 - 客户端应有针对注册中心不可用时的容灾手段
 - Zookeeper的原生客户端并不具有这样的能力
-- Nacos的客户端具备本地缓存
+- Nacos 的客户端具备本地缓存
+
 ## 11.7、结论
 
 - Zookeeper只支持CP模式，Nacos支持两种
@@ -2293,22 +2294,6 @@ SPI定义
 ![](../../../public/nacos/123.png)
 #### 12.5.2.2、pom文件添加依赖
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.zhz</groupId>
-    <artifactId>CMDB-DEMO</artifactId>
-    <version>1.0-SNAPSHOT</version>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
@@ -2316,22 +2301,6 @@ SPI定义
             <version>1.4.1</version>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.0.0</version>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-</project>
 ```
 #### 12.5.2.3、新建一个类实现CmdbService 
 ```java
