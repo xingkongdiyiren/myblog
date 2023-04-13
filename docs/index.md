@@ -12,10 +12,13 @@ hero:
       text: 知识星球（一起学习，100块入门劵）
       link: https://t.zsxq.com/0cCPM3RP1
 features:
-  - title: Widely
+  - icon: ⚡️
+    title: Widely
     details: 涵盖了后端几乎所有方面的知识点,技术面试，一个网站足矣。
-  - title: Phased
+  - icon: 🖖
+    title: Phased
     details: 一篇文章深入了解一个技术，面向应届生，有工作经验的程序员。
-  - title: Experience
+  - icon: 🛠️
+    title: Experience
     details: 面试不仅需要技术，同时，也需要一些心理博弈。
 ---
