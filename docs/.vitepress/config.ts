@@ -192,7 +192,7 @@ function getSpring() {
         {text: 'Mybatis', link: '/Spring Family/Mybatis/Mybatis'},
         {
             text: 'SpringCloud体系', items: [
-                {text: 'Nacos', link: '/Spring Family/微服务/SpringCloud体系/Nacos'},
+                {text: '注册中心—>Nacos', link: '/Spring Family/微服务/SpringCloud体系/Nacos'},
                 {text: '分布式事务', link: '/Spring Family/微服务/SpringCloud体系/分布式事务'},
                 {text: '安全', link: '/Spring Family/微服务/SpringCloud体系/安全'},
                 {text: '服务调用', link: '/Spring Family/微服务/SpringCloud体系/服务调用'},
