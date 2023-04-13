@@ -1,4 +1,3 @@
-# Nacos
 # 1、介绍
 1、服务发现与健康监测
 2、动态配置服务
@@ -220,7 +219,6 @@ server {
 # 5、Nacos集成SpringBoot实现统一配置管理
 ## 5.1、简单版（单配置文件版）
 ![](../../../public/nacos/17.png)
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1665167043488-a3911fa5-03ef-4cc1-bd65-2bc906c11fc1.png#averageHue=%232c3139&clientId=u92d3ba0e-bdee-4&errorMessage=unknown%20error&from=paste&height=434&id=u30582b22&name=image.png&originHeight=543&originWidth=473&originalType=binary&ratio=1&rotation=0&showTitle=false&size=39686&status=error&style=none&taskId=u30cd664b-6601-4db8-b47c-db8b3606540&title=&width=378.4)
 ### 5.1.1、pom依赖
 ```xml
 <dependency>
@@ -240,7 +238,7 @@ spring:
         file-extension: yml # 表示支持的扩展文件名
 ```
 ### 5.1.3、Nacos中的配置
-访问地址：http://localhost:8848/nacos，新建
+访问地址：localhost:8848/nacos 新建
 ![](../../../public/nacos/18.png)
 ### 5.1.4、测试代码
 ```java
@@ -580,10 +578,10 @@ Nacos中的一组配置集，是组织配置的维度之一。通过一个有意
 
 - 表示客户端主动去服务端拉取数据
   ![](../../../public/nacos/57.png)
-动态刷新机制：
-![](../../../public/nacos/58.png)
-动态刷新流程图
-![](../../../public/nacos/59.png)
+  动态刷新机制：
+  ![](../../../public/nacos/58.png)
+  动态刷新流程图
+  ![](../../../public/nacos/59.png)
 ### 6.1.3、核心源码流程
 ![](../../../public/nacos/60.png)
 ### 6.1.4、核心源码阅读(1.4.0-beta)
@@ -1110,7 +1108,7 @@ static ConfigService createConfigService(
         return Collections.emptyList();
     }
 ```
-##### getServerConfig() 
+##### getServerConfig()
 ![](../../../public/nacos/65.png)
 客户端发起长轮询的源码解析完成！！！
 #### 6.1.4.2、服务端接收和响应长轮询请求
@@ -1176,7 +1174,8 @@ static ConfigService createConfigService(
                 new ClientLongPolling(asyncContext, clientMd5Map, ip, probeRequestSize, timeout, appName, tag));
     }
 ```
-接着我们看一下最后一行的ClientLongPolling类，它实现了runnable接口，我们直接看其run方法。![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1667400602144-cdc74094-69f8-4f32-acc4-bfdfff6b8f4c.png#averageHue=%23352c2c&clientId=uebeb13e7-f094-4&from=paste&height=162&id=ua4f1ab40&name=image.png&originHeight=202&originWidth=1345&originalType=binary&ratio=1&rotation=0&showTitle=false&size=42436&status=done&style=none&taskId=ue5f9e6f1-97cd-426c-9e24-756ecf01d2a&title=&width=1076)
+接着我们看一下最后一行的ClientLongPolling类，它实现了runnable接口，我们直接看其run方法。
+![](../../../public/nacos/image49.png)
 ```java
  @Override
         public void run() {
@@ -1611,7 +1610,7 @@ dump方法中最重要的就是updateMd5()
 # 7、Nacos领域模型解析
 ## 7.1、数据模型
 ![](../../../public/nacos/76.png)
- 解释：
+解释：
 
 | 概念 | 描述 |
 | --- | --- |
@@ -2163,24 +2162,24 @@ private void handle(Pair<String, DataOperation> pair) {
 BASE 是 **Basically Available(基本可用)、Soft state(软状态)和 Eventually consistent (最终一致性)**三个短语的缩写。
 
 - **基本可用（Basically Available）:**
-分布式系统在出现故障时，允许损失 **部分可用功能**，保证核心功能可用。举例如下：
-**1. 响应时间上的损失（可用，但查询比平时慢）：**正常情况下，搜索引擎会在0.5秒内返回查询结果给用户，但由于出现故障（比如系统部分机房发生断电或断网故障），查询结果的响应时间增加到了1~2秒。
-**2. 功能上的损失：**在正常情况下，用户可以在一个电商网站上顺利完成每一笔订单。但是到了大促期间，为了保护购物系统的稳定性，部分消费者可能会被引导到一个降级页面。
+  分布式系统在出现故障时，允许损失 **部分可用功能**，保证核心功能可用。举例如下：
+  **1. 响应时间上的损失（可用，但查询比平时慢）：**正常情况下，搜索引擎会在0.5秒内返回查询结果给用户，但由于出现故障（比如系统部分机房发生断电或断网故障），查询结果的响应时间增加到了1~2秒。
+  **2. 功能上的损失：**在正常情况下，用户可以在一个电商网站上顺利完成每一笔订单。但是到了大促期间，为了保护购物系统的稳定性，部分消费者可能会被引导到一个降级页面。
 - **软状态（Soft state）：**
-软状态是指允许系统中的数据存在中间状态，并认为该中间状态的存在不会影响系统的整体可用性，即允许系统在不同的数据副本之间进行数据同步的过程存在延时。
+  软状态是指允许系统中的数据存在中间状态，并认为该中间状态的存在不会影响系统的整体可用性，即允许系统在不同的数据副本之间进行数据同步的过程存在延时。
 - **最终一致性（Eventually consistent）：**
-最终一致性强调的是系统中所有的数据副本，在经过一段时间的同步后，最终能够达到一个一致的状态。因此，最终一致性的本质是需要系统保证最终数据能够达到一致，而不需要实时保证系统数据的强一致性。
-在实际工程实践中，最终一致性分为5种：
+  最终一致性强调的是系统中所有的数据副本，在经过一段时间的同步后，最终能够达到一个一致的状态。因此，最终一致性的本质是需要系统保证最终数据能够达到一致，而不需要实时保证系统数据的强一致性。
+  在实际工程实践中，最终一致性分为5种：
 1. 因果一致性（Causal consistency）
-因果一致性指的是：如果节点A在更新完某个数据后通知了节点B，那么节点B之后对该数据的访问和修改都是基于A更新后的值。于此同时，和节点A无因果关系的节点C的数据访问则没有这样的限制。
+   因果一致性指的是：如果节点A在更新完某个数据后通知了节点B，那么节点B之后对该数据的访问和修改都是基于A更新后的值。于此同时，和节点A无因果关系的节点C的数据访问则没有这样的限制。
 2. 读己之所写（Read your writes）
-读己之所写指的是：节点A更新一个数据后，它自身总是能访问到自身更新过的最新值，而不会看到旧值。其实也算一种因果一致性。
+   读己之所写指的是：节点A更新一个数据后，它自身总是能访问到自身更新过的最新值，而不会看到旧值。其实也算一种因果一致性。
 3. 会话一致性（Session consistency）
-会话一致性将对系统数据的访问过程框定在了一个会话当中：系统能保证在同一个有效的会话中实现 “读己之所写” 的一致性，也就是说，执行更新操作之后，客户端能够在同一个会话中始终读取到该数据项的最新值。
+   会话一致性将对系统数据的访问过程框定在了一个会话当中：系统能保证在同一个有效的会话中实现 “读己之所写” 的一致性，也就是说，执行更新操作之后，客户端能够在同一个会话中始终读取到该数据项的最新值。
 4. 单调读一致性（Monotonic read consistency）
-单调读一致性指的是：如果一个节点从系统中读取出一个数据项的某个值后，那么系统对于该节点后续的任何数据访问都不应该返回更旧的值。
+   单调读一致性指的是：如果一个节点从系统中读取出一个数据项的某个值后，那么系统对于该节点后续的任何数据访问都不应该返回更旧的值。
 5. 单调写一致性（Monotonic write consistency）
-单调写一致性指的是：一个系统要能够保证来自同一个节点的写操作被顺序的执行。
+   单调写一致性指的是：一个系统要能够保证来自同一个节点的写操作被顺序的执行。
 ## 10.3、Raft协议讲解
 ### 10.3.1、作用
 
@@ -2201,15 +2200,15 @@ BASE 是 **Basically Available(基本可用)、Soft state(软状态)和 Eventual
 我们拿CAP理论去探讨，首先看
 
 - 数据一致性需求分析
-   - Si=F(service-name)
-   - endpoints(ip:port)=SI
-   - ![](../../../public/nacos/114.png)
+  - Si=F(service-name)
+  - endpoints(ip:port)=SI
+    ![](../../../public/nacos/114.png)
 
 解释：一般情况下我们是通过服务名去换取服务的IP和端口，然后这个过程如果不一致的话，就会导致我们两个消费者获取的服务的IP和端口各有不同，从而导致服务请求不可用。
 
 - 分区容忍性分析及可用性需求分析
-![](../../../public/nacos/115.png)
-解释：就是多个机房，其中有一个机房跟其他机房不互联，导致多个机房之间的机器不互通，所以多中心就会有影响，不过一般情况下，实际过程是杭州机房只会有杭州机器的注册中心，不会有北京的机器。
+  ![](../../../public/nacos/115.png)
+  解释：就是多个机房，其中有一个机房跟其他机房不互联，导致多个机房之间的机器不互通，所以多中心就会有影响，不过一般情况下，实际过程是杭州机房只会有杭州机器的注册中心，不会有北京的机器。
 ## 11.3、服务规模、容量和连通性
 
 - Zookeeper写操作是不可水平扩展的
@@ -2219,18 +2218,21 @@ BASE 是 **Basically Available(基本可用)、Soft state(软状态)和 Eventual
 - 定期将内存数据镜像到磁盘做持久化
 - 宕机重启后自动加载数据并恢复
 - 在服务发现的场景下，服务列表数据是否有必要持久化？
-   - 答案是不用，就比如nacos的是map，名为serviceMap
-![](../../../public/nacos/116.png)
+  - 答案是不用，就比如nacos的是map，名为serviceMap
+    ![](../../../public/nacos/116.png)
+
 ## 11.5、服务健康检查
 
 - Zookeeper的服务健康检查是基于TCP长连接活性探测
 - Nacos是服务提供者主动发起心跳来保活
-## 11.6、注册中心的容灾
-![](../../../public/nacos/117.png)
 
-- 客户端应有针对注册中心不可用时的容灾手段
-- Zookeeper的原生客户端并不具有这样的能力
-- Nacos 的客户端具备本地缓存
+## 11.6、注册中心的容灾
+
+客户端应有针对注册中心不可用时的容灾手段
+Zookeeper的原生客户端并不具有这样的能力
+Nacos 的客户端具备本地缓存
+
+![](../../../public/nacos/117.png)
 
 ## 11.7、结论
 

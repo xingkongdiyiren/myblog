@@ -1,3 +1,93 @@
+import { defineConfig } from 'vitepress'
+import markdownItKatex from 'markdown-it-katex'
+
+let customElements = [
+    'math',
+    'maction',
+    'maligngroup',
+    'malignmark',
+    'menclose',
+    'merror',
+    'mfenced',
+    'mfrac',
+    'mi',
+    'mlongdiv',
+    'mmultiscripts',
+    'mn',
+    'mo',
+    'mover',
+    'mpadded',
+    'mphantom',
+    'mroot',
+    'mrow',
+    'ms',
+    'mscarries',
+    'mscarry',
+    'mscarries',
+    'msgroup',
+    'mstack',
+    'mlongdiv',
+    'msline',
+    'mstack',
+    'mspace',
+    'msqrt',
+    'msrow',
+    'mstack',
+    'mstack',
+    'mstyle',
+    'msub',
+    'msup',
+    'msubsup',
+    'mtable',
+    'mtd',
+    'mtext',
+    'mtr',
+    'munder',
+    'munderover',
+    'semantics',
+    'math',
+    'mi',
+    'mn',
+    'mo',
+    'ms',
+    'mspace',
+    'mtext',
+    'menclose',
+    'merror',
+    'mfenced',
+    'mfrac',
+    'mpadded',
+    'mphantom',
+    'mroot',
+    'mrow',
+    'msqrt',
+    'mstyle',
+    'mmultiscripts',
+    'mover',
+    'mprescripts',
+    'msub',
+    'msubsup',
+    'msup',
+    'munder',
+    'munderover',
+    'none',
+    'maligngroup',
+    'malignmark',
+    'mtable',
+    'mtd',
+    'mtr',
+    'mlongdiv',
+    'mscarries',
+    'mscarry',
+    'msgroup',
+    'msline',
+    'msrow',
+    'mstack',
+    'maction',
+    'semantics',
+    'annotation',
+    'annotation-xml'
+]
 export default {
     // 网站标题
     title: '小白的编程之路',
@@ -8,6 +98,19 @@ export default {
     base: '/myblog/',
     lastUpdated: true,
     cleanUrls: true,
+    markdown: {
+        config: (md) => {
+            md.use(markdownItKatex)
+        }
+    },
+    // // 由于vitepress编译生成静态html文件时，无法识别插件生成的特殊标签，故需在编译时进行处理，将特殊标签定位自定义标签，防止编译报错
+    // vue: {
+    //     template: {
+    //         compilerOptions: {
+    //             isCustomElement: (tag) => customElements.includes(tag)
+    //         }
+    //     }
+    // },
     // 头部head
     algolia: {
         appId: '4U7RZD5OL6',
@@ -15,6 +118,13 @@ export default {
         indexName: 'searchapi',
         placeholder: '请输入关键词',
         buttonText: '搜索',
+    },
+    server: {
+        hmr: {overlay: false}, // 禁用或配置 HMR 连接 设置 server.hmr.overlay 为 false 可以禁用服务器错误遮罩层
+        // 服务配置
+        open: false, // 类型： boolean | string在服务器启动时自动在浏览器中打开应用程序；
+        cors: false, // 类型： boolean | CorsOptions 为开发服务器配置 CORS。默认启用并允许任何源
+        host: '0.0.0.0', // 支持从IP启动访问
     },
     head: [
         ['meta', {name: 'theme-color', content: '#3c8772'}],
@@ -26,7 +136,8 @@ export default {
                 'data-spa': 'auto',
                 defer: ''
             },
-        ]
+        ],
+        ['link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css', crossorigin: '' }]
     ],
     // 主题配置
     themeConfig: {
@@ -59,7 +170,7 @@ export default {
             'other': getOther(),
             'Architecture system': getArchitectureSystem(),
             'Actual combat series': getActualComBatSeries(),
-            'soft skills':getSoftSkills()
+            'soft skills': getSoftSkills()
         }
     }
 }
