@@ -6544,6 +6544,276 @@ public class TestSentinel {
     }
 }
 ```
+# 14、redis的思维导图
+## 14.1、redis的思维导图
+以下是一个Xmind文档，基本整个Redis都有总结：
+https://www.yuque.com/zhzbaishen/ldbu6i/inpg5n?singleDoc# 《Redis思维导图》
+
+# 15、redis生产遇到的坑
+
+## 15.1、 批量命令代替单个命令
+
+项⽬使⽤情况：
+
+```java
+Set<String> noCacheSkuCodeSet = Sets.newHashSet();
+for (String skuCode : skuCodeList) {
+    String key = KEY + skuCode;
+    // 每次使⽤单个Key获取单个缓存
+    String value = redisTemplate.opsForValue().get(key);
+    if (StringUtils.isNotBlank(value)) {
+        Test skuBrief = JSON.parseObject(value, Test.class);
+        skuBriefList.add(skuBrief);
+    } else {
+        noCacheSkuCodeSet.add(skuCode);
+    }
+}
+```
+
+>  引发问题：每次单个获取缓存都是⼀次和Redis的IO消耗，当需要遍历的数量多了，会导致该请求响应⼗ 分缓慢。
+
+```java
+List<String> keys = Lists.newArrayList();
+for (String skuCode : skuCodeList) {
+    keys.add(KEY + skuCode);
+}
+// 使⽤MGet批量获取缓存
+List<String> cacheValues = redisTemplate.opsForValue().multiGet(keys);
+Set<String> noCacheSkuCodeSet = Sets.newHashSet();
+if (CollectionUtils.isNotEmpty(cacheValues)) {
+    for (int i = 0; i < cacheValues.size(); i++) {
+        String cacheValue = cacheValues.get(i);
+        if (StringUtils.isBlank(cacheValue)) {
+            noCacheSkuCodeSet.add(skuCodeList.get(i));
+            continue;
+        }
+        Test skuBrief = JSON.parseObject(cacheValue, Test.class);
+        skuBriefList.add(skuBrief);
+    }
+}
+```
+
+>  注：使⽤了批量命令代替单个命令后，可以减少客户端、服务端来回⽹络的IO次数，提升接⼝性能。
+
+## 15.2、Redis Cluster 不⽀持多个数据库
+
+![image.png](../../public/redis/66.png)
+
+## 15.3、过期时间丢失
+
+>  如下，第⼀次设置‘testKey’的时候，还设置了该key的过期时间。
+
+```java
+String key = "testTime";
+String value = "testValue";
+// 设置缓存，并设置过期时间为 60 秒过期
+redisTemplate.opsForValue().set(key, value, 60, TimeUnit.SECONDS);
+// 查询缓存的过期时间
+Long time = redisTemplate.opsForValue().getOperations()
+    .getExpire(key, TimeUnit.SECONDS);
+
+```
+
+当第⼆次如果修改这个key的值，但没设置过期时间的话
+
+```java
+String value2 = "testValue2";
+// 设置缓存
+redisTemplate.opsForValue().set(key, value2);
+// 查询缓存的过期时间
+Long time = redisTemplate.opsForValue().getOperations()
+    .getExpire(key, TimeUnit.SECONDS);
+```
+
+> 解决⽅法：先获取其过期时间，再进⾏设置
+
+```java
+String key = "testTime";
+String value2 = "testValue2";
+// 查询缓存的过期时间
+Long time = redisTemplate.opsForValue().getOperations()
+    .getExpire(key, TimeUnit.SECONDS);
+// 设置缓存，并设置过期时间
+redisTemplate.opsForValue().set(key, value2, time, TimeUnit.SECONDS);
+```
+
+>  注：当key没有设置过期时间时，此命令会返回-1；当key不存在时，此命令会返回-2
+
+## 15.4、 Redis 默认序列化
+
+```java
+MyTest test = new MyTest();
+test.setName("我爱Redis");
+test.setAge(99);
+redisTemplate.opsForValue().set("testKey", test);
+```
+![image.png](../../public/redis/67.png)
+
+>  如上所示，当使⽤redisTemplate的默认序列化时，会带上class属性。
+
+> 引发问题：当取缓存信息时反序列化的类，和设置缓存是的类不⼀致时，会有类转换异常告警信息。
+
+> 解决⽅法：使⽤JSON序列化存储
+
+```java
+MyTest test = new MyTest();
+test.setName("我爱Redis");
+test.setAge(99);
+String value = JSON.toJSONString(test);
+redisTemplate.opsForValue().set("testKey", value);
+```
+
+## 15.5、Redission 线程并发时遇到的异常
+
+当我们在使⽤Redission的lock.lock()⽅法时，且存在线程并发的情况时，可能会出现，线程1获取了锁， 但没有释放锁；此时线程2解锁的时候，系统就会报出以下异常： java.lang.IllegalMonitorStateException: attempt to unlock lock, not locked by current thread by node id：XXXXX
+
+```java
+public String deductStockRedission() {
+    String lockKey = "this_is_lock";
+    RLock rlock = redission.getLock(lockKey);
+    try {
+        rlock.lock();
+        //业务逻辑实现
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        rlock.unlock();
+    }
+}
+```
+
+>  解决⽅法：进⾏解锁的时候，判断该锁是否当前线程持有
+
+```java
+public String deductStockRedission() {
+    String lockKey = "this_is_lock";
+    RLock rlock = redission.getLock(lockKey);
+    try {
+        rlock.lock();
+        //业务逻辑实现
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        // 是否是当前执⾏线程的锁
+        // TODO 有问题
+        if(lock.isHeldByCurrentThread()) {
+            lock.unlock(); // 释放锁
+        }
+    }
+}
+```
+
+>  注：当锁没有设置超时时间的时候，Redission内部的看⻔狗机制，会该锁不断延⻓其有效期；但当拥 有该锁的实例停机后，该锁会过期删除。
+
+## 15.6、 Redis集群环境中，执⾏Lua脚本批量设置
+
+如下，实例为批量设置缓存（集群环境中）
+
+```shell
+127.0.0.1:6379> MSET testKey1 '1' testKey2 '2' testKey3 '3'
+(error) CROSSSLOT Keys in request don't hash to the same slot
+```
+
+** 引发问题：当执⾏批量设置缓存的时候，出现“请求的键没有落⼊同⼀个槽中”。  **
+是因为在redis集群环境下。每个Key通过CRC16散列，然后对16384进⾏取模，来决定该Key应当被放在 哪个槽中。对于多个键，仅当它们都共享相同的连接插槽时才执⾏。
+所以如上所示，testKey1、testKey2、testKey3三个Key会被存放到不同的槽中。  
+![image.png](../../public/redis/68.png)
+**解决⽅法：Hash Tag  **
+Hash Tag可以决定使⽤指定的Key计算hash值，使得此次批量操作的Key都可以落⼊同⼀个slot中。
+** ⽤法：使⽤ {} 包裹Key  **
+
+```shell
+127.0.0.1:6379> MSET {testKey}1 '1' {testKey}2 '2' {testKey}3 '3
+```
+
+此时，就会根据 {} 中的‘testKey’进⾏计算，它们就会被分配到同⼀个slot中。
+
+>  注：HashTag可能会使过多的key分配到同⼀个slot中，造成数据倾斜影响系统的吞吐量，务必谨慎使 ⽤。
+
+## 15.7、ZREM 批量删除缓存
+
+- 时间复杂度：O(M*log(N)) （N是有序集合中的元素个数，M是被移除的元素个数）
+- 命令参数：ZREM key member [member …]
+- 作⽤：移除有序列表中的元素，当版本⼤于等于2.4时，可以⼀次性移除多个元素，返回成功移除的元素个数，当指定的元素不存在时不会有任何操作。
+
+在⼤批量的定时任务同⼀时间执⾏时，执⾏完之后需要对该缓存进⾏删除，则使⽤了该⽅法，但由于数据量过多，会导致此次请求执⾏时间过⻓，有阻塞Redis的⻛险。
+
+> **引发问题：⼀旦这些请求⼤量产⽣，会导致Redis被阻塞，影响其他使⽤Redis的业务系统**
+
+![image.png](../../public/redis/69.png)
 
 
+> **解决⽅法：分批删除集合中的元素。**
+> 注：任何复杂度不是O(1)的操作，都需要注意操作的Key的数量。
 
+## 15.8、Keys 批量查询缓存
+
+> - 时间复杂度：O(N)
+> - 命令参数：keyskey
+> - 作⽤：命令⽤于查找所有符合给定模式 pattern 的 key
+
+**项⽬使⽤情况：**有些特定的缓存，由于它们的Key前缀⼀致，所以使⽤了Keys命令，将这些⼀致前缀的缓存全部查询出来，但这个命令时间复杂度O(N)中的N，是Redis服务器中所有Key的数量！如下，每个 命令执⾏时⻓都⼗分之⻓，Redis直接阻塞。
+
+> 引发问题：⼀旦这些请求⼤量产⽣，会导致Redis被阻塞，影响其他使⽤Redis的业务系统。
+
+![image.png](../../public/redis/70.png)
+
+> 注：任何复杂度不是O(1)的操作，都需要注意操作的Key的数量，有遍历的需求，请使⽤迭代查询命令！
+> ⾼危命令，建议直接禁⽌使⽤！
+
+解决办法：
+
+- 1、代码层⾯优化，避免使⽤模糊查询的⽅式查询缓存
+- 2、使⽤scan进⾏迭代获取（但要注意count的参数设置，⽐如当redis中的key有100万个时，设置count为1000，则要与redis交互1000次，所以需要取舍，因此尽量避免模糊查询缓存的操作）
+
+## 15.9、缓存雪崩
+
+缓存正常从Redis中获取，示意图如下：
+![image.png](../../public/redis/71.png)
+
+> **缓存雪崩指的是**：当Redis中⼤量Key集中过期，或者Redis服务器宕机，从⽽导致⼤量请求落到底层数据库获取数据，造成数据库短时间内承受⼤量请求⽽崩掉。
+
+![image.png](../../public/redis/72.png)
+**解决⽅法：**
+
+- 1. 若是⼤量Key同时过期所造成的
+
+   - a. 将缓存过期时间分散开，设置缓存过期时间时，加上⼀个随机值，避免⼤量缓存在同⼀时间过期。
+
+```java
+// 缓存时间为随机2-3天
+int times = RandomUtil.randomInt(48, 73);
+redisTemplate.opsForValue().set(key, skuDetailCache, times, TimeUnit.HOURS)
+;
+```
+
+- b. 数据预热，对于即将来临的⼤量请求，可以提前将数据缓存在Redis中，并且设置不同的过期时间。
+- 2. 若是Redis宕机所造成的
+
+可以搭建Redis集群，保证⾼可⽤
+
+- 3. 可以添加多级缓存，如Nginx缓存
+- 4. 缓存设置永不过期
+
+## 15.10、缓存策略如何选
+
+常⻅的缓存更新策略有：
+
+- 旁路缓存（Cache Aside）先更新数据库，再删缓存
+- 读/写直通（Read/Write Through）
+- 写回（Write Back）
+
+> Read Through 策略
+> 先查询缓存在中数据是否存在，如果存在则直接返回，如果不存在，则由缓存组件负责从数据库查询数据，并将结果写⼊到缓存组件，最后缓存组件将数据返回给应⽤。
+> Write Through 策略
+> 当有数据更新的时候，先查询要写⼊的数据在缓存中是否已经存在：如果缓存中数据已经存在，则更新缓存中的数据，并且由缓存组件同步更新到数据库中，然后缓存组件告知应⽤程序更新完成。如果缓存中数据不存在，直接更新数据库，然后返回；
+> Write Back（写回）策略
+> 在更新数据的时候，只更新缓存，同时将缓存数据设置为脏的，然后⽴⻢返回，并不会更新数据库。对于数据库的更新，会通过批量异步更新的⽅式进⾏。
+
+在实际应⽤中，业界最常⽤的⽅案就是“旁路缓存”
+![image.png](../../public/redis/73.png)
+但是需要注意的是，这种操作在「读 + 写」并发时：
+![image.png](../../public/redis/74.png)
+最终，该⽤户年龄在缓存中是 20（旧值），在数据库中是 21（新值），缓存和数据库数据不⼀致。 从上⾯的理论上分析，先更新数据库，再删除缓存也是会出现数据不⼀致性的问题，**但是在实际中，这个问题出现的概率并不⾼**。
+**因为缓存的写⼊通常要远远快于数据库的写⼊**，所以在实际中很难出现请求 B 已经更新了数据库并且删除了缓存，请求 A 才更新完缓存的情况。⽽⼀旦请求 A 早于请求 B 删除缓存之前更新了缓存，那么接下来的请求就会因为缓存不命中⽽从数据库中重新读取数据，所以不会出现这种不⼀致的情况。
+**Cache Aside 策略适合读多写少的场景，不适合写多的场景**，因为当写⼊⽐较频繁时，缓存中的数据会被频繁地清理，这样会对缓存的命中率有⼀些影响。
