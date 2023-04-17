@@ -735,34 +735,34 @@ Nacos中的一组配置集，是组织配置的维度之一。通过一个有意
 
 - 表示服务端主动将数据变更信息推送给客户端
 
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1665338092754-89476f92-3c73-4dd7-9afd-0d979f17eb07.png#averageHue=%23f9e8db&clientId=u6dda5b27-3983-4&errorMessage=unknown%20error&from=paste&height=204&id=u63175440&name=image.png&originHeight=255&originWidth=379&originalType=binary&ratio=1&rotation=0&showTitle=false&size=27321&status=error&style=none&taskId=uc3b0b95f-8301-4780-852f-7ba172a17e2&title=&width=303.2)
+![1.png](../../../public/nacos/56.png)
 
 ### 6.1.2、PULL（拉模式）
 
 - 表示客户端主动去服务端拉取数据
 
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1665338188833-a7131cc7-4ee3-4f09-baaf-7d7e68e9135b.png#averageHue=%23f8e6dd&clientId=u6dda5b27-3983-4&errorMessage=unknown%20error&from=paste&height=214&id=u06ca2dc0&name=image.png&originHeight=267&originWidth=348&originalType=binary&ratio=1&rotation=0&showTitle=false&size=25617&status=error&style=none&taskId=u56064e89-a61f-4717-89a5-e54fdda15a9&title=&width=278.4)
+![1.png](../../../public/nacos/57.png)
 动态刷新机制：
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1665338317605-0aae39ab-d10c-4608-809d-b04b92d01856.png#averageHue=%23fcfcfc&clientId=u6dda5b27-3983-4&errorMessage=unknown%20error&from=paste&height=413&id=u29d9adb2&name=image.png&originHeight=516&originWidth=1860&originalType=binary&ratio=1&rotation=0&showTitle=false&size=178943&status=error&style=none&taskId=u034e7b35-d6a5-4b96-b1cb-c4d908cf3b9&title=&width=1488)
+![1.png](../../../public/nacos/58.png)
 动态刷新流程图
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1665338581159-81f194d6-863b-4371-8ad7-a766e706c998.png#averageHue=%23f2e9d2&clientId=u6dda5b27-3983-4&errorMessage=unknown%20error&from=paste&height=678&id=u0304e1ba&name=image.png&originHeight=847&originWidth=1581&originalType=binary&ratio=1&rotation=0&showTitle=false&size=743793&status=error&style=none&taskId=uf1dc5d29-29a6-40e4-a3ee-1e1c489efdd&title=&width=1264.8)
+![1.png](../../../public/nacos/59.png)
 
 ### 6.1.3、核心源码流程
 
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1667207545879-3ee9bb15-1714-4665-a598-351f158d17ec.png#averageHue=%23f5f5f5&clientId=u3eb5303c-0975-4&from=paste&height=719&id=ucd1585c6&name=image.png&originHeight=899&originWidth=991&originalType=binary&ratio=1&rotation=0&showTitle=false&size=240375&status=done&style=none&taskId=u21865b00-1fd2-4e44-ac9f-f86ddab110e&title=&width=792.8)
+![1.png](../../../public/nacos/60.png)
 
 ### 6.1.4、核心源码阅读(1.4.0-beta)
 
 源码查看：
 [https://gitee.com/zhouzhz/nacos_ower_learn](https://gitee.com/zhouzhz/nacos_ower_learn)
 [https://gitee.com/zhouzhz/spring-cloud-alibaba_ower_learn](https://gitee.com/zhouzhz/spring-cloud-alibaba_ower_learn)
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1668097086571-6d58f2c2-e4d2-4794-bd18-e21c5273969d.png#averageHue=%23f7f5ec&clientId=u4f537d25-c56c-4&from=paste&height=661&id=ud1305a17&name=image.png&originHeight=1322&originWidth=2250&originalType=binary&ratio=1&rotation=0&showTitle=false&size=1193288&status=done&style=none&taskId=u9f8ca038-11b0-44f0-882b-435a72a8976&title=&width=1125)
+![1.png](../../../public/nacos/61.png)
 
 #### 6.1.4.1、客户端发起长轮询
 
 首先我们要先了解怎么看SpringBoot的相关自动装配源码，
 第一步我们需要先去找到我们的spring.factories文件
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1667227121015-6fe7dca0-f5c4-4315-a876-08bc8a493cf0.png#averageHue=%23566847&clientId=u550670b2-1c57-4&from=paste&height=627&id=u0ad9a734&name=image.png&originHeight=784&originWidth=1808&originalType=binary&ratio=1&rotation=0&showTitle=false&size=215006&status=done&style=none&taskId=uc468da52-4234-40f2-925a-d4496b93b65&title=&width=1446.4)
+![1.png](../../../public/nacos/62.png)
 我们可以观察到有一个bootstrap的目录，是不是可以发现他是启动文件呢，所以我们先进入**NacosConfigBootstrapConfiguration**文件
 
 ```java
@@ -902,9 +902,9 @@ static ConfigService createConfigService(
 
 然后我们进去NacosFactory.createConfigService(nacosConfigProperties.assembleConfigServiceProperties())中，一直到最里面发现它是利用反射进行调用NacosConfigService(Properties)的这个构造方法
 
-#### ![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1667235293783-9ff67949-5487-4d31-b49e-464bcc6cb768.png#averageHue=%232e2c2b&clientId=u550670b2-1c57-4&from=paste&height=318&id=u0613c6dc&name=image.png&originHeight=397&originWidth=1151&originalType=binary&ratio=1&rotation=0&showTitle=false&size=63233&status=done&style=none&taskId=u918ae75a-3e1c-47f8-bf54-18f52520dbd&title=&width=920.8)
+![1.png](../../../public/nacos/63.png)
 
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1667236117841-9c9e9972-8496-48e7-b1de-1ff447b0ef4a.png#averageHue=%232d2c2c&clientId=u550670b2-1c57-4&from=paste&height=392&id=u2693b906&name=image.png&originHeight=490&originWidth=935&originalType=binary&ratio=1&rotation=0&showTitle=false&size=76640&status=done&style=none&taskId=u815fbcd1-7ac8-4735-a40a-4213403e4ef&title=&width=748)
+![1.png](../../../public/nacos/64.png)
 接着我们看最下面的核心方法**ClientWorker**的构造方法
 
 ```java
@@ -1304,18 +1304,17 @@ static ConfigService createConfigService(
 
 ##### getServerConfig()
 
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1667242495349-e63dcf12-944e-493c-9534-5ba2e3748b22.png#averageHue=%232f2d2c&clientId=u550670b2-1c57-4&from=paste&height=585&id=u25235ba7&name=image.png&originHeight=731&originWidth=942&originalType=binary&ratio=1&rotation=0&showTitle=false&size=138752&status=done&style=none&taskId=u770fd1ae-241a-4058-ac54-06ae273eb34&title=&width=753.6)
+![1.png](../../../public/nacos/65.png)
 客户端发起长轮询的源码解析完成！！！
 
 #### 6.1.4.2、服务端接收和响应长轮询请求
 
 我们主要看com.alibaba.nacos.config.server.controller.ConfigController#listener这个方法，也就是nacos的/v1/cs/configs/listener接口。
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1667399615835-c0eb6f7d-9b04-49e3-a74a-4c84cd01400b.png#averageHue=%232d2c2c&clientId=uebeb13e7-f094-4&from=paste&height=605&id=u1f1448b6&name=image.png&originHeight=756&originWidth=860&originalType=binary&ratio=1&rotation=0&showTitle=false&size=119143&status=done&style=none&taskId=uddd3a305-3b47-46b9-9c2b-63b88bd3e76&title=&width=688)
+![1.png](../../../public/nacos/66.png)
 在其最后一行调用了一个方法inner.doPollingConfig(request, response, clientMd5Map, probeModify.length());
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1667400069107-76e15e89-d6bf-494a-8cee-062eb8547d4a.png#averageHue=%232e2d2c&clientId=uebeb13e7-f094-4&from=paste&height=636&id=u46343a01&name=image.png&originHeight=795&originWidth=963&originalType=binary&ratio=1&rotation=0&showTitle=false&size=140084&status=done&style=none&taskId=u38e6129b-347c-4074-b78d-b9d6cbad346&title=&width=770.4)
+![1.png](../../../public/nacos/67.png)
 然后我们再看圈中的这个com.alibaba.nacos.config.server.service.LongPollingService#addLongPollingClient方法。
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1667400506855-37c93274-0e73-4736-af18-abc795012875.png#averageHue=%23322c2b&clientId=uebeb13e7-f094-4&from=paste&height=241&id=u8a63a937&name=image.png&originHeight=301&originWidth=1169&originalType=binary&ratio=1&rotation=0&showTitle=false&size=54008&status=done&style=none&taskId=u5443e078-4fed-47be-9753-b749212d15e&title=&width=935.2)
-
+![1.png](../../../public/nacos/68.png)
 ```java
  /**
      * Add LongPollingClient.
@@ -1373,7 +1372,8 @@ static ConfigService createConfigService(
     }
 ```
 
-接着我们看一下最后一行的ClientLongPolling类，它实现了runnable接口，我们直接看其run方法。![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1667400602144-cdc74094-69f8-4f32-acc4-bfdfff6b8f4c.png#averageHue=%23352c2c&clientId=uebeb13e7-f094-4&from=paste&height=162&id=ua4f1ab40&name=image.png&originHeight=202&originWidth=1345&originalType=binary&ratio=1&rotation=0&showTitle=false&size=42436&status=done&style=none&taskId=ue5f9e6f1-97cd-426c-9e24-756ecf01d2a&title=&width=1076)
+接着我们看一下最后一行的ClientLongPolling类，它实现了runnable接口，我们直接看其run方法。
+![1.png](../../../public/nacos/69-1.png)
 
 ```java
  @Override
@@ -1424,7 +1424,7 @@ static ConfigService createConfigService(
 ```
 
 我们可以观察到timeoutTime这个属性的值为：29.5s
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1667400757940-4fe6c44f-849c-45fb-9f74-98032e5ac155.png#averageHue=%23333231&clientId=uebeb13e7-f094-4&from=paste&height=51&id=uffa98977&name=image.png&originHeight=64&originWidth=695&originalType=binary&ratio=1&rotation=0&showTitle=false&size=13835&status=done&style=none&taskId=ubc39da02-108c-40aa-87cf-e8bb2466aa6&title=&width=556)
+![1.png](../../../public/nacos/69.png)
 所以我们知道了这个run方法里面创建了一个Runnable方法，并放入线程池中，每隔29.5s执行一次，如果无变更，就正常返回，如果有变更（md5比较不相同），则调用sendResponse(changedGroups);方法响应客户端
 
 #### 6.1.4.3、用户主动发起配置变更
@@ -1623,7 +1623,7 @@ dump 方法的内容如下：
 ```
 
 我们继续进去addTask()方法，一直追溯com.alibaba.nacos.common.task.engine.NacosDelayTaskExecuteEngine#addTask的方法，而在当前类中的构造方法里面可以看到
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1667412019290-e5be0776-cbd2-486e-84e4-2a5d8af62542.png#averageHue=%232d2c2b&clientId=uebeb13e7-f094-4&from=paste&height=214&id=u507e1713&name=image.png&originHeight=268&originWidth=1177&originalType=binary&ratio=1&rotation=0&showTitle=false&size=54708&status=done&style=none&taskId=u3e28f2f2-4913-4a96-a230-c98f07dda58&title=&width=941.6)
+![1.png](../../../public/nacos/70.png)
 查看 ProcessRunnable 对象的 run 方法，会调用 processTasks() 方法。processTasks() 方法中又会调用 getProcessor 获取对应的任务处理器
 
 ```java
@@ -1666,7 +1666,7 @@ dump 方法的内容如下：
 ```
 
 我们进去processor.process(task)方法，可以发现他是一个接口NacosTaskProcessor，他有很多实现类，如下：
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1667412638766-ff2a4b6f-b3d3-49c5-8194-a11e8c6eda00.png#averageHue=%232e333d&clientId=uebeb13e7-f094-4&from=paste&height=334&id=u5622a16f&name=image.png&originHeight=418&originWidth=1186&originalType=binary&ratio=1&rotation=0&showTitle=false&size=97004&status=done&style=none&taskId=ud949fe95-7937-4698-ad63-87219d191b2&title=&width=948.8)
+![1.png](../../../public/nacos/71.png)
 我们重点看一下DumpProcessor，其里面的实现方法process的代码如下：
 
 ```java
@@ -1819,11 +1819,562 @@ DumpConfigHandler.configDump(build.build()) 方法中的代码是：
 - ConfigTraceService.logDumpEvent() 方法记录日志
 
 dump方法中最重要的就是updateMd5()
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1667412952206-fa56e342-93f2-414e-8e32-25d445db163d.png#averageHue=%2395573c&clientId=uebeb13e7-f094-4&from=paste&height=465&id=ua06ad672&name=image.png&originHeight=581&originWidth=1288&originalType=binary&ratio=1&rotation=0&showTitle=false&size=132817&status=done&style=none&taskId=u4a39f33b-67d5-4127-ba19-f58b2481d89&title=&width=1030.4)
+![1.png](../../../public/nacos/71.png)
 他的里面的实现为
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1667412983309-204b5fbe-5d1f-4cdd-9207-5253ebe91cbe.png#averageHue=%232d2c2c&clientId=uebeb13e7-f094-4&from=paste&height=224&id=u9c22838d&name=image.png&originHeight=280&originWidth=913&originalType=binary&ratio=1&rotation=0&showTitle=false&size=44905&status=done&style=none&taskId=u02d2c695-24bd-4a32-9a6a-ab16e5da1aa&title=&width=730.4)
+![1.png](../../../public/nacos/72.png)
 我们可以发现他发布了一个LocalDataChangeEvent 事件，这个事件的处理在于LongPollingService 这个类的无参构造方法中。
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1667413104621-e41365d6-ebf8-4ad1-85df-6a7ac1d8dea1.png#averageHue=%232f2c2b&clientId=uebeb13e7-f094-4&from=paste&height=571&id=u2b8a24f3&name=image.png&originHeight=714&originWidth=949&originalType=binary&ratio=1&rotation=0&showTitle=false&size=103133&status=done&style=none&taskId=u92e0c337-0ac2-4654-be50-ec6c24c0efd&title=&width=759.2)
+![1.png](../../../public/nacos/73.png)
 我们又可以发现他又创建了一个线程对象DataChangeTask，我们是不是可以知道就看他的run方法即可
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1667413166713-ab4fc0d7-9dd4-4df5-af08-032fe308d58f.png#averageHue=%232c2c2b&clientId=uebeb13e7-f094-4&from=paste&height=594&id=u775ae0bb&name=image.png&originHeight=743&originWidth=949&originalType=binary&ratio=1&rotation=0&showTitle=false&size=116328&status=done&style=none&taskId=u80017f1d-b0aa-4ef5-aae0-4cc689879e9&title=&width=759.2)
-最终我们可以发生这块代码的整体逻辑是拿出队列中所有的长轮询对象并响应，客户端在接收到响应后会请求 **/v1/cs/configs **接口获取最新的配置。
+![1.png](../../../public/nacos/74.png)
+最终我们可以发生这块代码的整体逻辑是拿出队列中所有的长轮询对象并响应，客户端在接收到响应后会请求 **/v1/cs/configs**接口获取最新的配置。
+![1.png](../../../public/nacos/75.png)
+
+# 7、Nacos领域模型解析
+
+## 7.1、数据模型
+
+![1.png](../../../public/nacos/76.png)
+解释：
+
+| 概念      | 描述                                      |
+| --------- | ----------------------------------------- |
+| Namespace | 代表不同的运行环境，比如dev/test/uat/prod |
+| Group     | 代表某一类配置，比如中间件、数据库配置    |
+| DateId    | 某个项目中的具体的配置文件                |
+
+## 7.2、分级存储模型
+
+![1.png](../../../public/nacos/77.png)
+
+## 7.3、服务领域模型
+
+- Namespace：实现环境隔离，默认值public
+- Group：不同的service可以组成一个Group，默认是Default-Group
+- Service：服务名称
+- Cluster：对指定的微服务虚拟划分，默认值Default
+
+最佳实践
+![1.png](../../../public/nacos/78.png)
+
+# 8、Nacos架构
+
+![1.png](../../../public/nacos/79.png)
+
+# 9、Nacos注册中心
+
+## 9.1、通用注册中心原理
+
+![1.png](../../../public/nacos/80.png)
+
+## 9.2、同产品的Dubbo的服务注册原理
+
+![1.png](../../../public/nacos/81.png)
+
+## 9.3、Nacos的注册中心原理
+
+整体图：
+![1.png](../../../public/nacos/82.png)
+时序图：
+![1.png](../../../public/nacos/83.png)
+
+## 9.4、源码解析
+
+源码查看：
+[https://gitee.com/zhouzhz/nacos_ower_learn](https://gitee.com/zhouzhz/nacos_ower_learn)
+[https://gitee.com/zhouzhz/spring-cloud-alibaba_ower_learn](https://gitee.com/zhouzhz/spring-cloud-alibaba_ower_learn)
+![1.png](../../../public/nacos/84.png)
+
+### 9.4.1、客户端源码解析
+
+#### 9.4.1.1、老生常谈：spring.factories
+
+![1.png](../../../public/nacos/85.png)
+
+#### 9.4.1.2、初入NacosServiceRegistryAutoConfiguration
+
+我们可以发现NacosServiceRegistryAutoConfiguration里面有一个创建NacosAutoServiceRegistration的方法，具体代码如下：
+![1.png](../../../public/nacos/86.png)
+我们进入NacosAutoServiceRegistration中，发现他会继承一个AbstractAutoServiceRegistration类，而这个类他又实现了ApplicationListener接口
+![1.png](../../../public/nacos/87.png)
+我们可以直接看其Event相关的方法
+![1.png](../../../public/nacos/88.png)
+然后我们就可以确定到bind方法，代码如下：
+
+```java
+@Deprecated
+public void bind(WebServerInitializedEvent event) {
+    ApplicationContext context = event.getApplicationContext();
+	if (!(context instanceof ConfigurableWebServerApplicationContext) || !"management".equals(((ConfigurableWebServerApplicationContext)context).getServerNamespace())) {
+    	this.port.compareAndSet(0, event.getWebServer().getPort());
+    	// 调用了 start 方法
+        this.start();
+	}
+}
+```
+
+然后我们看其start方法，代码如下
+
+```java
+public void start() {
+    // 判断是否已开启注册
+    if (!this.isEnabled()) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("Discovery Lifecycle disabled. Not starting");
+        }
+    } else {
+        if (!this.running.get()) {
+            this.context.publishEvent(new InstancePreRegisteredEvent(this, this.getRegistration()));
+            // 调用 register() 方法
+            this.register();
+            if (this.shouldRegisterManagement()) {
+                this.registerManagement();
+            }
+            this.context.publishEvent(new InstanceRegisteredEvent(this, this.getConfiguration()));
+            this.running.compareAndSet(false, true);
+        }
+    }
+}
+```
+
+#### 9.4.1.3、再入NacosServiceRegistry
+
+然后我们直接去看关键代码（register()方法），他最终会调用com.alibaba.cloud.nacos.registry.NacosServiceRegistry#register
+
+```java
+@Override
+	public void register(Registration registration) {
+
+		if (StringUtils.isEmpty(registration.getServiceId())) {
+			log.warn("No service to register for nacos client...");
+			return;
+		}
+
+		NamingService namingService = namingService();
+		String serviceId = registration.getServiceId();
+		String group = nacosDiscoveryProperties.getGroup();
+
+		Instance instance = getNacosInstanceFromRegistration(registration);
+
+		try {
+            // 调用 registerInstance() 方法
+			namingService.registerInstance(serviceId, group, instance);
+			log.info("nacos registry, {} {} {}:{} register finished", group, serviceId,
+					instance.getIp(), instance.getPort());
+		}
+		catch (Exception e) {
+			if (nacosDiscoveryProperties.isFailFast()) {
+				log.error("nacos registry, {} register failed...{},", serviceId,
+						registration.toString(), e);
+				rethrowRuntimeException(e);
+			}
+			else {
+				log.warn("Failfast is false. {} register failed...{},", serviceId,
+						registration.toString(), e);
+			}
+		}
+	}
+```
+
+#### 9.4.1.4、接着NamingProxy
+
+我们由registerInstance方法点进去，然后一直往下走，会走到com.alibaba.nacos.client.naming.net.NamingProxy#registerService方法，具体流程如下
+![1.png](../../../public/nacos/89.png)
+![1.png](../../../public/nacos/90.png)
+![1.png](../../../public/nacos/91.png)
+一直到最后com.alibaba.nacos.client.naming.net.NamingProxy#registerService
+
+```java
+public void registerService(String serviceName, String groupName, Instance instance) throws NacosException {
+        
+        NAMING_LOGGER.info("[REGISTER-SERVICE] {} registering service {} with instance: {}", namespaceId, serviceName,
+                instance);
+        //拼接参数
+        final Map<String, String> params = new HashMap<String, String>(16);
+        params.put(CommonParams.NAMESPACE_ID, namespaceId);
+        params.put(CommonParams.SERVICE_NAME, serviceName);
+        params.put(CommonParams.GROUP_NAME, groupName);
+        params.put(CommonParams.CLUSTER_NAME, instance.getClusterName());
+        params.put("ip", instance.getIp());
+        params.put("port", String.valueOf(instance.getPort()));
+        params.put("weight", String.valueOf(instance.getWeight()));
+        params.put("enable", String.valueOf(instance.isEnabled()));
+        params.put("healthy", String.valueOf(instance.isHealthy()));
+        params.put("ephemeral", String.valueOf(instance.isEphemeral()));
+        params.put("metadata", JacksonUtils.toJson(instance.getMetadata()));
+        // 调用服务端的 /nacos/v1/ns/instance
+        reqApi(UtilAndComs.nacosUrlInstance, params, HttpMethod.POST);
+        
+    }
+```
+
+最后客户端启动时注册服务的代码已经分析完成
+
+### 9.4.2、服务端源码解析
+
+#### 9.4.2.1、初入InstanceController
+
+服务端的源码入口在于com.alibaba.nacos.naming.controllers.InstanceController#register，具体代码如下
+
+```java
+/**
+     * Register new instance.
+     *
+     * @param request http request
+     * @return 'ok' if success
+     * @throws Exception any error during register
+     */
+    @CanDistro
+    @PostMapping
+    @Secured(parser = NamingResourceParser.class, action = ActionTypes.WRITE)
+    public String register(HttpServletRequest request) throws Exception {
+        // 获取 namespaceId 
+        final String namespaceId = WebUtils
+                .optional(request, CommonParams.NAMESPACE_ID, Constants.DEFAULT_NAMESPACE_ID);
+        //获取serviceName
+        final String serviceName = WebUtils.required(request, CommonParams.SERVICE_NAME);
+        NamingUtils.checkServiceNameFormat(serviceName);
+        //组装数据
+        final Instance instance = parseInstance(request);
+        //// 调用服务管理器的registerInstance 方法
+        serviceManager.registerInstance(namespaceId, serviceName, instance);
+        return "ok";
+    }
+```
+
+#### 9.4.2.2、再入ServiceManager
+
+接着我们就可以进入com.alibaba.nacos.naming.core.ServiceManager#registerInstance方法，具体代码如下
+
+```java
+/**
+* Register an instance to a service in AP mode.
+*
+* <p>This method creates service or cluster silently if they don't exist.
+*
+* @param namespaceId id of namespace
+* @param serviceName service name
+* @param instance    instance to register
+* @throws Exception any error occurred in the process
+*/
+public void registerInstance(String namespaceId, String serviceName, Instance instance) throws NacosException {
+    // 创建一个空服务
+    createEmptyService(namespaceId, serviceName, instance.isEphemeral());
+    // 获取 service
+    Service service = getService(namespaceId, serviceName);
+
+    if (service == null) {
+        throw new NacosException(NacosException.INVALID_PARAM,
+                                 "service not found, namespace: " + namespaceId + ", service: " + serviceName);
+    }
+    // 具体的服务注册方法
+    addInstance(namespaceId, serviceName, instance.isEphemeral(), instance);
+}
+```
+
+##### 9.4.2.2.1、继续看createEmptyService方法
+
+我们先看一下createEmptyService方法，一直到最里面的com.alibaba.nacos.naming.core.ServiceManager#createServiceIfAbsent这个方法
+![1.png](../../../public/nacos/92.png)
+接着我们再看putServiceAndInit(service);方法
+![1.png](../../../public/nacos/93.png)
+然后进入putService方法，可以发现他是一个map，**先是尝试从一个 serviceMap 的对象中获取 service，不存在创建一个放入这个 serviceMap 中。**
+![1.png](../../../public/nacos/94.png)
+我们发现他有一个serviceMap，他是一个Map，并且是个**ConcurrentHashMap**。
+![1.png](../../../public/nacos/95.png)
+
+##### 9.4.2.2.2、继续看addInstance方法
+
+![1.png](../../../public/nacos/96.png)
+然后我们接着看com.alibaba.nacos.naming.consistency.DelegateConsistencyServiceImpl#put方法
+
+```java
+@Override
+public void put(String key, Record value) throws NacosException {
+    mapConsistencyService(key).put(key, value);
+}
+```
+
+接着这里面会个判断，如果是以com.alibaba.nacos.naming.iplist.ephemeral.为开头就用EphemeralConsistencyService，否则就用PersistentConsistencyServiceDelegateImpl
+![1.png](../../../public/nacos/97.png)
+然后我们假设是第一种情况，他是EphemeralConsistencyService，他有个实现类叫做DistroConsistencyServiceImpl，类图如下：
+![1.png](../../../public/nacos/98.png)
+我们先看其put方法
+![1.png](../../../public/nacos/99.png)
+我们重点看其onPut方法
+![1.png](../../../public/nacos/100.png)
+然后我们进入其addTask()方法，他会把提醒发到队列里面
+![1.png](../../../public/nacos/101.png)
+让我们来看一下tasks属性，他有一个属性如下
+
+```java
+  private BlockingQueue<Pair<String, DataOperation>> tasks = new ArrayBlockingQueue<>(1024 * 1024);
+```
+
+我们看到这里就发现他好像没有下一步了，那么他究竟在哪服务注册呢，我们接着看下面。
+
+我们接口看这个类下面，DistroConsistencyServiceImpl的类下面有个init方法，他是@PostConstruct修饰，所以他是一进来这个构造方法就会初始化，如下：
+
+```java
+@PostConstruct
+public void init() {
+    GlobalExecutor.submitDistroNotifyTask(notifier);
+}
+
+```
+
+这里面的submitDistroNotifyTask()方法里面是线程池调用方法
+![1.png](../../../public/nacos/102.png)
+然后我们就可以知道notifier实现了Runnable，直接看com.alibaba.nacos.naming.consistency.ephemeral.distro.DistroConsistencyServiceImpl.Notifier#run方法
+
+```java
+@Override
+public void run() {
+    Loggers.DISTRO.info("distro notifier started");
+ 	// 死循环
+    for (; ; ) {
+        try {
+             // 从阻塞队列中拿到一个 Pair 对象，调用 handle 方法
+            Pair<String, DataOperation> pair = tasks.take();
+            handle(pair);
+        } catch (Throwable e) {
+            Loggers.DISTRO.error("[NACOS-DISTRO] Error while handling notifying task", e);
+        }
+    }
+}
+```
+
+我们直接看其最重要的方法handle()方法
+
+```java
+private void handle(Pair<String, DataOperation> pair) {
+            try {
+                String datumKey = pair.getValue0();
+                DataOperation action = pair.getValue1();
+
+                services.remove(datumKey);
+
+                int count = 0;
+
+                if (!listeners.containsKey(datumKey)) {
+                    return;
+                }
+
+                for (RecordListener listener : listeners.get(datumKey)) {
+
+                    count++;
+
+                    try {
+                        if (action == DataOperation.CHANGE) {
+                            // 这里会调用 Service 类的 onChange 方法
+                            listener.onChange(datumKey, dataStore.get(datumKey).value);
+                            continue;
+                        }
+
+                        if (action == DataOperation.DELETE) {
+                            // 这里会调用 Service 类的 onDelete 方法
+                            listener.onDelete(datumKey);
+                            continue;
+                        }
+                    } catch (Throwable e) {
+                        Loggers.DISTRO.error("[NACOS-DISTRO] error while notifying listener of key: {}", datumKey, e);
+                    }
+                }
+
+                if (Loggers.DISTRO.isDebugEnabled()) {
+                    Loggers.DISTRO
+                            .debug("[NACOS-DISTRO] datum change notified, key: {}, listener count: {}, action: {}",
+                                    datumKey, count, action.name());
+                }
+            } catch (Throwable e) {
+                Loggers.DISTRO.error("[NACOS-DISTRO] Error while handling notifying task", e);
+            }
+        }
+```
+
+然后他会调用com.alibaba.nacos.naming.core.Service#onChange方法，代码如下
+
+```java
+ @Override
+    public void onChange(String key, Instances value) throws Exception {
+        
+        Loggers.SRV_LOG.info("[NACOS-RAFT] datum is changed, key: {}, value: {}", key, value);
+        
+        for (Instance instance : value.getInstanceList()) {
+            
+            if (instance == null) {
+                // Reject this abnormal instance list:
+                throw new RuntimeException("got null instance " + key);
+            }
+            //对权重进行处理
+            if (instance.getWeight() > 10000.0D) {
+                instance.setWeight(10000.0D);
+            }
+            
+            if (instance.getWeight() < 0.01D && instance.getWeight() > 0.0D) {
+                instance.setWeight(0.01D);
+            }
+        }
+        //将注册的服务放在一个 clusterMap 的对象中
+        updateIPs(value.getInstanceList(), KeyBuilder.matchEphemeralInstanceListKey(key));
+        
+        recalculateChecksum();
+    }
+```
+
+我们继续看com.alibaba.nacos.naming.core.Service#updateIPs方法，他就是将注册的服务放在一个 clusterMap 的对象中。具体代码如下
+
+```java
+ /**
+     * Update instances.
+     * 更新实例
+     *
+     * @param instances instances
+     * @param ephemeral whether is ephemeral instance
+     */
+    public void updateIPs(Collection<Instance> instances, boolean ephemeral) {
+        Map<String, List<Instance>> ipMap = new HashMap<>(clusterMap.size());
+        for (String clusterName : clusterMap.keySet()) {
+            ipMap.put(clusterName, new ArrayList<>());
+        }
+
+        for (Instance instance : instances) {
+            try {
+                if (instance == null) {
+                    Loggers.SRV_LOG.error("[NACOS-DOM] received malformed ip: null");
+                    continue;
+                }
+
+                if (StringUtils.isEmpty(instance.getClusterName())) {
+                    instance.setClusterName(UtilsAndCommons.DEFAULT_CLUSTER_NAME);
+                }
+            	//如果之前集群不存在，创建一个集群
+                if (!clusterMap.containsKey(instance.getClusterName())) {
+                    Loggers.SRV_LOG
+                            .warn("cluster: {} not found, ip: {}, will create new cluster with default configuration.",
+                                    instance.getClusterName(), instance.toJson());
+                    Cluster cluster = new Cluster(instance.getClusterName(), this);
+                    cluster.init();
+                    getClusterMap().put(instance.getClusterName(), cluster);
+                }
+
+                List<Instance> clusterIPs = ipMap.get(instance.getClusterName());
+                if (clusterIPs == null) {
+                    clusterIPs = new LinkedList<>();
+                    ipMap.put(instance.getClusterName(), clusterIPs);
+                }
+
+                clusterIPs.add(instance);
+            } catch (Exception e) {
+                Loggers.SRV_LOG.error("[NACOS-DOM] failed to process ip: " + instance, e);
+            }
+        }
+
+        for (Map.Entry<String, List<Instance>> entry : ipMap.entrySet()) {
+            //make every ip mine
+            List<Instance> entryIPs = entry.getValue();
+            //这里又会调用 updateIps 方法
+            clusterMap.get(entry.getKey()).updateIps(entryIPs, ephemeral);
+        }
+
+        setLastModifiedMillis(System.currentTimeMillis());
+        getPushService().serviceChanged(this);
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (Instance instance : allIPs()) {
+            stringBuilder.append(instance.toIpAddr()).append("_").append(instance.isHealthy()).append(",");
+        }
+
+        Loggers.EVT_LOG.info("[IP-UPDATED] namespace: {}, service: {}, ips: {}", getNamespaceId(), getName(),
+                stringBuilder.toString());
+
+    }
+```
+
+我们继续看其里面的方法com.alibaba.nacos.naming.core.Cluster#updateIps，
+
+```java
+ /**
+     * Update instance list.
+     *
+     * @param ips       instance list
+     * @param ephemeral whether these instances are ephemeral
+     */
+    public void updateIps(List<Instance> ips, boolean ephemeral) {
+
+        Set<Instance> toUpdateInstances = ephemeral ? ephemeralInstances : persistentInstances;
+
+        HashMap<String, Instance> oldIpMap = new HashMap<>(toUpdateInstances.size());
+
+        for (Instance ip : toUpdateInstances) {
+            oldIpMap.put(ip.getDatumKey(), ip);
+        }
+        // 获取有更新的服务
+        List<Instance> updatedIPs = updatedIps(ips, oldIpMap.values());
+        if (updatedIPs.size() > 0) {
+            for (Instance ip : updatedIPs) {
+                Instance oldIP = oldIpMap.get(ip.getDatumKey());
+
+                // do not update the ip validation status of updated ips
+                // because the checker has the most precise result
+                // Only when ip is not marked, don't we update the health status of IP:
+                if (!ip.isMarked()) {
+                    ip.setHealthy(oldIP.isHealthy());
+                }
+
+                if (ip.isHealthy() != oldIP.isHealthy()) {
+                    // ip validation status updated
+                    Loggers.EVT_LOG.info("{} {SYNC} IP-{} {}:{}@{}", getService().getName(),
+                            (ip.isHealthy() ? "ENABLED" : "DISABLED"), ip.getIp(), ip.getPort(), getName());
+                }
+
+                if (ip.getWeight() != oldIP.getWeight()) {
+                    // ip validation status updated
+                    Loggers.EVT_LOG.info("{} {SYNC} {IP-UPDATED} {}->{}", getService().getName(), oldIP.toString(),
+                            ip.toString());
+                }
+            }
+        }
+        // 获取新的服务
+        List<Instance> newIPs = subtract(ips, oldIpMap.values());
+        if (newIPs.size() > 0) {
+            Loggers.EVT_LOG
+                    .info("{} {SYNC} {IP-NEW} cluster: {}, new ips size: {}, content: {}", getService().getName(),
+                            getName(), newIPs.size(), newIPs.toString());
+
+            for (Instance ip : newIPs) {
+                // 对每个新服务建立健康检查
+                HealthCheckStatus.reset(ip);
+            }
+        }
+        // 获取已经失效的服务
+        List<Instance> deadIPs = subtract(oldIpMap.values(), ips);
+
+        if (deadIPs.size() > 0) {
+            Loggers.EVT_LOG
+                    .info("{} {SYNC} {IP-DEAD} cluster: {}, dead ips size: {}, content: {}", getService().getName(),
+                            getName(), deadIPs.size(), deadIPs.toString());
+
+            for (Instance ip : deadIPs) {
+                // 已经失效的服务移除健康检查
+                HealthCheckStatus.remv(ip);
+            }
+        }
+
+        toUpdateInstances = new HashSet<>(ips);
+
+        // 将最终的结果替换现有的对象，这里的思想类似于 COW 思想，做到了读写分离不干扰
+        if (ephemeral) {
+            //临时实例
+            ephemeralInstances = toUpdateInstances;
+        } else {
+            //持久实例
+            persistentInstances = toUpdateInstances;
+        }
+    }
+```
+
+最后我们的服务注册就看完了。
+
+### 9.4.3、服务注册使用
+
+请看下列地址：[https://www.yuque.com/zhzbaishen/ldbu6i/pv38v3](https://www.yuque.com/zhzbaishen/ldbu6i/pv38v3)
