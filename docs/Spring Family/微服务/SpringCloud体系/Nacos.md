@@ -321,7 +321,7 @@ spring:
 
 ### 5.1.3、Nacos中的配置
 
-访问地址：http://localhost:8848/nacos，
+访问地址：http://localhost:8848/nacos
 新建：
 ![1.png](../../../public/nacos/18.png)
 ### 5.1.4、测试代码
