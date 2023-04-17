@@ -2378,3 +2378,475 @@ private void handle(Pair<String, DataOperation> pair) {
 ### 9.4.3、服务注册使用
 
 请看下列地址：[https://www.yuque.com/zhzbaishen/ldbu6i/pv38v3](https://www.yuque.com/zhzbaishen/ldbu6i/pv38v3)
+
+# 10、Nacos扩展了解
+
+## 10.1、CAP
+
+**CAP**定理指出分布式系统不可能同时具有一致性、可用性和分区容错性。听起来很简单，但一致性、可用性、分区容错性到底是什么意思呢？确切地来说分布式系统又意味着什么呢？
+
+在本文中，我们将介绍一个简单的分布式系统，并对分布式系统的可用性、一致性和分区容错性进行诠释。有关分布式系统和这三个属性的正式描述，请参阅 Gilbert 和 Lynch 的论文。
+
+**分布式系统**
+
+让我们来考虑一个非常简单的分布式系统，它由两台服务器G1和G2组成；这两台服务器都存储了同一个变量v，v的初始值为v0；G1和G2互相之间能够通信，并且也能与外部的客户端通信；我们的分布式系统的架构图如下图所示：
+
+![1.png](../../../public/nacos/103.png)
+
+一个简单的分布式系统
+
+客户端可以向任何服务器发出读写请求。服务器当接收到请求之后，将根据请求执行一些计算，然后把请求结果返回给客户端。譬如，下图是一个写请求的例子：
+
+![1.png](../../../public/nacos/104.png)
+
+客户端发起写请求
+
+接着，下图是一个读请求的例子
+![1.png](../../../public/nacos/105.png)
+
+客户端发起读请求
+
+现在我们的分布式系统建立起来了，下面我们就来回顾一下分布式系统的可用性、一致性以及分区容错性的含义。
+
+### 10.1.1、**一致性 (Consistency)**
+
+> any read operation that begins after a write operation completes must return that value, or the result of a later write operation
+> 在写入操作完成后开始的任何读取操作都必须返回该值，或返回稍后写入操作的结果
+
+
+下图是一个不一致的分布式系统的例子:
+
+![1.png](../../../public/nacos/106.png)
+
+不一致的分布式系统
+
+客户端向G1发起写请求，将v的值更新为v1且得到G1的确认响应；当向G2发起读v的请求时，读取到的却是旧的值v0，与期待的v1不一致。
+
+下图一致的分布式系统的例子:
+
+![1.png](../../../public/nacos/107.png)
+
+一致的分布式系统
+
+在这个系统中，G1在将确认响应返回给客户端之前，会先把v的新值复制给G2，这样，当客户端从G2读取v的值时就能读取到最新的值v1
+
+### 10.1.2、可用性(**Availability**)-->可以理解为多机器/多中心等
+
+> every request received by a non-failing node in the system must result in a response
+> 系统中未发生故障的节点收到的每个请求都必须得到响应
+
+也就是说，在一个可用的分布式系统中，客户端向其中一个服务器发起一个请求且该服务器未崩溃，那么这个服务器最终必须响应客户端的请求。
+
+### 10.1.3、分区容错性 (Partition tolerance)
+
+> the network will be allowed to lose arbitrarily many messages sent from one node to another
+> 网络将被允许丢失从一个节点发送到另一个节点的任意多个消息
+
+也就是说服务器G1和G2之间互相发送的任意消息都可能丢失。如果所有的消息都丢失了，那么我们的系统就变成了下图这样：
+![1.png](../../../public/nacos/108.png)
+**网络分区**
+为了满足分区容错性，我们的系统在任意的网络分区情况下都必须正常的工作。
+
+### 10.1.4、AP模式（一般是这个）
+
+简单理解为：服务可以不可用，一致性是必须要的
+
+### 10.1.5、CP模式
+
+简单理解为：服务必须可用，一致性是次要的，但是数据最终一定是一致性的
+
+### CAP定理的证明
+
+现在我们已经了解了一致性、可用性和分区容错性的概念，我们可以来证明一个系统不能同时满足这三种属性了。
+假设存在一个同时满足这三个属性的系统，我们第一件要做的就是让系统发生网络分区，就像下图的情况一样：
+
+![1.png](../../../public/nacos/109.png)
+
+网络分区
+
+客户端向G1发起写请求，将v的值更新为v1，因为系统是可用的，所以G1必须响应客户端的请求，但是由于网络是分区的，G1无法将其数据复制到G2
+
+![1.png](../../../public/nacos/110.png)
+
+由于网络分区导致不一致
+
+接着，客户端向G2发起读v的请求，再一次因为系统是可用的，所以G2必须响应客户端的请求，又由于网络是分区的，G2无法从G1更新v的值，所以G2返回给客户端的是旧的值v0
+
+![1.png](../../../public/nacos/111.png)
+
+由于网络分区导致不一致
+
+客户端发起写请求将G1上v的值修改为v1之后，从G2上读取到的值仍然是v0，这违背了一致性。
+
+### 总结
+
+我们假设了存在一个满足一致性、可用性、分区容错性的分布式系统，但是我们展示了在一些情况下，系统表现出不一致的行为，因此证明不存在这样一个系统
+
+对于一个分布式系统来说，P 是一个基本要求，CAP 三者中，只能根据系统要求在 C 和 A 两者之间做权衡，并且要想尽办法提升 P
+
+## 10.2、BASE原则
+
+BASE 是Basically Available(基本可用)、Soft state(软状态)和 Eventually consistent (最终一致性)三个短语的缩写。
+
+- 基本可用（Basically Available）:
+  分布式系统在出现故障时，允许损失 部分可用功能，保证核心功能可用。举例如下：
+  1. 响应时间上的损失（可用，但查询比平时慢）：**正常情况下，搜索引擎会在0.5秒内返回查询结果给用户，但由于出现故障（比如系统部分机房发生断电或断网故障），查询结果的响应时间增加到了1~2秒。
+  2. 功能上的损失：在正常情况下，用户可以在一个电商网站上顺利完成每一笔订单。但是到了大促期间，为了保护购物系统的稳定性，部分消费者可能会被引导到一个降级页面。
+- 软状态（Soft state）：
+  软状态是指允许系统中的数据存在中间状态，并认为该中间状态的存在不会影响系统的整体可用性，即允许系统在不同的数据副本之间进行数据同步的过程存在延时。
+- 最终一致性（Eventually consistent）：
+  最终一致性强调的是系统中所有的数据副本，在经过一段时间的同步后，最终能够达到一个一致的状态。因此，最终一致性的本质是需要系统保证最终数据能够达到一致，而不需要实时保证系统数据的强一致性。
+  在实际工程实践中，最终一致性分为5种：
+
+1. 因果一致性（Causal consistency）
+   因果一致性指的是：如果节点A在更新完某个数据后通知了节点B，那么节点B之后对该数据的访问和修改都是基于A更新后的值。于此同时，和节点A无因果关系的节点C的数据访问则没有这样的限制。
+2. 读己之所写（Read your writes）
+   读己之所写指的是：节点A更新一个数据后，它自身总是能访问到自身更新过的最新值，而不会看到旧值。其实也算一种因果一致性。
+3. 会话一致性（Session consistency）
+   会话一致性将对系统数据的访问过程框定在了一个会话当中：系统能保证在同一个有效的会话中实现 “读己之所写” 的一致性，也就是说，执行更新操作之后，客户端能够在同一个会话中始终读取到该数据项的最新值。
+4. 单调读一致性（Monotonic read consistency）
+   单调读一致性指的是：如果一个节点从系统中读取出一个数据项的某个值后，那么系统对于该节点后续的任何数据访问都不应该返回更旧的值。
+5. 单调写一致性（Monotonic write consistency）
+   单调写一致性指的是：一个系统要能够保证来自同一个节点的写操作被顺序的执行。
+
+## 10.3、Raft协议讲解
+
+### 10.3.1、作用
+
+- 用于解决分布式系统中的一致性问题
+- 《In Search of and Understandable Consensus Algorithm》这篇论文中初次提到
+
+### 10.3.2、选举过程
+
+详细流程，请看动图：[http://thesecretlivesofdata.com/raft/](http://thesecretlivesofdata.com/raft/)
+
+![1.png](../../../public/nacos/112.png)
+
+### 10.3.3、raft协议详细了解
+
+[https://www.cnblogs.com/xybaby/p/7153755.html](https://www.cnblogs.com/xybaby/p/7153755.html)
+
+[https://blog.csdn.net/yangmengjiao_/article/details/120191314](https://blog.csdn.net/yangmengjiao_/article/details/120191314)
+
+# 11、阿里为什么使用Nacos而不用zookeeper
+
+## 11.1、发展历史
+
+![1.png](../../../public/nacos/113.png)
+
+## 11.2、注册中心要AP还是CP？
+
+我们拿CAP理论去探讨，首先看
+
+- 数据一致性需求分析
+  - Si=F(service-name)
+  - endpoints(ip:port)=SI
+    ![1.png](../../../public/nacos/114.png)
+
+解释：一般情况下我们是通过服务名去换取服务的IP和端口，然后这个过程如果不一致的话，就会导致我们两个消费者获取的服务的IP和端口各有不同，从而导致服务请求不可用。
+
+- 分区容忍性分析及可用性需求分析
+
+![1.png](../../../public/nacos/115.png)
+解释：就是多个机房，其中有一个机房跟其他机房不互联，导致多个机房之间的机器不互通，所以多中心就会有影响，不过一般情况下，实际过程是杭州机房只会有杭州机器的注册中心，不会有北京的机器。
+
+## 11.3、服务规模、容量和连通性
+
+- Zookeeper写操作是不可水平扩展的
+
+## 11.4、注册中心是否需要持久存储和事务日志
+
+- Zookeeper的ZAB协议保证每次请求都会写日志到每个节点
+- 定期将内存数据镜像到磁盘做持久化
+- 宕机重启后自动加载数据并恢复
+- 在服务发现的场景下，服务列表数据是否有必要持久化？
+  - 答案是不用，就比如nacos的是map，名为serviceMap
+
+![1.png](../../../public/nacos/116.png)
+
+## 11.5、服务健康检查
+
+- Zookeeper的服务健康检查是基于TCP长连接活性探测
+- Nacos是服务提供者主动发起心跳来保活
+
+## 11.6、注册中心的容灾
+
+![1.png](../../../public/nacos/117.png)
+
+- 客户端应有针对注册中心不可用时的容灾手段
+- Zookeeper的原生客户端并不具有这样的能力
+- Nacos的客户端具备本地缓存
+
+## 11.7、结论
+
+- Zookeeper只支持CP模式，Nacos支持两种
+- Zookeeper的事务机制和两阶段提交性能远低于Nacos
+- Nacos的服务端主动心跳机制远于Zookeeper基于TCP探活
+- Nacos的客户端会缓存服务列表，当注册中心不可用时起到灾备的作用，而Zookeeper原生客户端并不具备。
+
+# 12、Nacos在跨DC部署中的应用
+
+## 12.1、什么是跨DC调用
+
+![1.png](../../../public/nacos/118.png)
+
+## 12.2、如何解决跨DC调用
+
+![1.png](../../../public/nacos/119.png)
+
+## 12.3、什么是CMDB?
+
+- Configuration Management Database
+- 企业存放与机器设备、应用、服务等元数据
+- 机器IP、主机名、机房、应用等
+- 供运维或者监控平台使用这些数据进行展示和运维操作
+
+## 12.4、CMDB相关概念
+
+- Entity可以指一个IP、应用或者服务。包含很多属性
+- Entity Type不限定在IP、应用。也可以根据业务自定义
+- LABEL定义为一个描述Entity实行的K-V键值对
+- Entity Event当实体属性发生变化时发出的消息
+
+## 12.5、Nacos与CMDB整合？
+
+### 12.5.1、了解Nacos CMDB SPI机制
+
+![1.png](../../../public/nacos/120.png)
+Nacos 定义了一个 SPI 接口，里面包含了与第三方 CMDB 约定的一些方法。用户依照约定实现了相应的 SPI 接口后可实现 Nacos 与 CMDB 的数据打通。
+SPI定义
+
+![1.png](../../../public/nacos/121.png)
+
+#### 12.5.1.1、获取标签列表
+```java
+Set<String> getLabelNames()
+```
+
+- 这个方法将返回 CMDB 中需要被 Nacos 识别的标签名集合，CMDB 插件可以按需决定返回什么标签个 Nacos。不在这个集合的标签将会被 Nacos 忽略，即使这个标签出现在实体的属性里。我们允许这个集合会在运行时动态变化，Nacos 会定时去调用这个接口刷新标签集合。
+
+#### 12.5.1.2、获取实体类型
+```java
+ Set<String> getEntityTypes()
+```
+- 获取 CMDB 里的实体的类型集合，不在这个集合的实体类型会被 Nacos 忽略。服务发现模块目前需要的实体类似是 ip，如果想要通过打通 CMDB 数据来实现服务的高级负载均衡，请务必在返回集合里包含“ip”。
+
+#### 12.5.1.3、获取标签详情
+```java
+Label getLabel(String labelName)
+```
+- 获取标签的详细信息。返回的 Label 类里包含标签的名字和标签值的集合。如果某个实体的这个标签的值不在标签值集合里，将会被视为无效。
+
+#### 12.5.1.4、查询实体的标签值
+```java
+String getLabelValue(String entityName, String entityType, String labelName);
+Map<String, String> getLabelValues(String entityName, String entityType);
+```
+- 这里包含两个方法，一个是获取实体某一个标签名对应的值，一个是获取实体所有标签的键值对。参数里包含实体的值和实体的类型。注意，这个方法并不会在每次在 Nacos 内部触发查询时去调用，Nacos 内部有一个 CMDB 数据的缓存，只有当这个缓存失效或者不存在时，才会去访问 CMDB 插件查询数据。为了让 CMDB 插件的实现尽量简单，我们在Nacos 内部实现了相应的缓存和刷新逻辑。
+
+#### 12.5.1.5、查询实体
+```java
+ Map<String, Map<String, Entity>> getAllEntities();
+ Entity getEntity(String entityName, String entityType);
+```
+- 查询实体包含两个方法：查询所有实体和查询单个实体。查询单个实体目前其实就是查询这个实体的所有标签，不过我们将这个方法与获取所有标签的方法区分开来，因为查询单个实体方法后面可能会进行扩展，比查询所有标签获取的信息要更多。
+- 查询所有实体则是一次性将 CMDB 的所有数据拉取过来，该方法可能会比较消耗性能，无论是对于 Nacos 还是 CMDB。Nacos 内部调用该方法的策略是通过可配置的定时任务周期来定时拉取所有数据，在实现该 CMDB 插件时，也请关注 CMDB 服务本身的性能，采取合适的策略。
+
+#### 12.5.1.6、查询实体事件
+```java
+ List<EntityEvent> getEntityEvents(long timestamp);
+```
+- 这个方法意在获取最近一段时间内实体的变更消息，增量的去拉取变更的实体。因为 Nacos 不会实时去访问 CMDB 插件查询实体，需要这个拉取事件的方法来获取实体的更新。参数里的 timestamp 为上一次拉取事件的时间，CMDB 插件可以选择使用或者忽略这个参数。
+
+### 12.5.2、Nacos CMDB整合
+
+![1.png](../../../public/nacos/122.png)
+
+#### 12.5.2.1、新建一个Maven项目
+
+![1.png](../../../public/nacos/123.png)
+
+#### 12.5.2.2、pom文件添加依赖
+
+```xml
+    <dependencies>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-api</artifactId>
+            <version>1.4.1</version>
+        </dependency>
+    </dependencies>
+```
+
+#### 12.5.2.3、新建一个类实现CmdbService
+
+```java
+package com.zhz.cmdb.demo;
+
+import com.alibaba.nacos.api.cmdb.pojo.Entity;
+import com.alibaba.nacos.api.cmdb.pojo.EntityEvent;
+import com.alibaba.nacos.api.cmdb.pojo.Label;
+import com.alibaba.nacos.api.cmdb.pojo.PreservedEntityTypes;
+import com.alibaba.nacos.api.cmdb.spi.CmdbService;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * @author zhouhengzhe
+ * @date 2022/11/12
+ */
+public class NacosCmdbServiceImpl implements CmdbService {
+
+    private Map<String,Map<String,Entity>> entityMap=new ConcurrentHashMap<>();
+
+    private Map<String,Label> labelMap=new ConcurrentHashMap<>();
+
+    public NacosCmdbServiceImpl() {
+        Label label = new Label();
+        label.setName("cluster");
+        Set<String> values = new HashSet<>();
+        values.add("BEIJING");
+        values.add("HANGZHOU");
+        label.setValues(values);
+        labelMap.put(label.getName(),label);
+        entityMap.put(PreservedEntityTypes.ip.name(),new HashMap<>());
+        Entity entity = new Entity();
+        entity.setName("192.168.10.10");
+        entity.setType(PreservedEntityTypes.ip.name());
+        Map<String,String> labels = new HashMap<>();
+        labels.put("cluster","BEIJING");
+        entity.setLabels(labels);
+        entityMap.get(PreservedEntityTypes.ip.name()).put(entity.getName(),entity);
+        entity = new Entity();
+        entity.setName("192.168.10.11");
+        entity.setType(PreservedEntityTypes.ip.name());
+        labels = new HashMap<>();
+        labels.put("cluster","HANGZHOU");
+        entity.setLabels(labels);
+        entityMap.get(PreservedEntityTypes.ip.name()).put(entity.getName(),entity);
+    }
+
+    @Override
+    public Set<String> getLabelNames() {
+        return new HashSet<String>(){{add("cluster");}};
+    }
+
+    @Override
+    public Set<String> getEntityTypes() {
+        return new HashSet<String>(){{add(PreservedEntityTypes.ip.name());}};
+    }
+
+    @Override
+    public Label getLabel(String labelName) {
+        return labelMap.get(labelName);
+    }
+
+    @Override
+    public String getLabelValue(String entityName, String entityType, String labelName) {
+        return entityMap.get(entityName).get(entityName).getLabels().get(labelName);
+    }
+
+    @Override
+    public Map<String, String> getLabelValues(String entityName, String entityType) {
+        return entityMap.get(entityName).get(entityName).getLabels();
+    }
+
+    @Override
+    public Map<String, Map<String, Entity>> getAllEntities() {
+        return entityMap;
+    }
+
+    @Override
+    public List<EntityEvent> getEntityEvents(long l) {
+        return null;
+    }
+
+    @Override
+    public Entity getEntity(String entityName, String entityType) {
+        return entityMap.get(entityType).get(entityName);
+    }
+}
+
+```
+
+#### 12.5.2.4、在META-INF.services文件下创建com.alibaba.nacos.api.cmdb.spi.CmdbService
+
+```java
+com.zhz.cmdb.demo.NacosCmdbServiceImpl
+```
+
+#### 12.5.2.5、执行命令进行打包
+
+```shell
+mvn package assembly:single -Dmaven.test.skip=true
+```
+
+#### 12.5.2.6、将target目录下的包含依赖的jar包上传到Nacos CMDB插件目录：
+
+```shell
+{nacos.home}/plugins/cmdb
+```
+
+#### 12.5.2.7、在nacos的application.properties里打开加载插件开关
+
+```properties
+nacos.cmdb.loadDataAtStart=true
+```
+
+#### 12.5.2.8、重启nacos Server，即可加载到您实现的nacos-cmdb插件获取您的CMDB数据。
+
+#### 12.5.2.9、使用 Selector 实现同机房优先访问
+
+通过 CMDB 的数据就可以实现多种灵活的负载均衡策略，下面举例来说明如何使用 CMDB 数据和 Selector 来实现就近访问。
+
+##### 12.5.2.9.1、Nacos 通过 CMDB 获取 IP 机房信息，对应的标签信息如下：
+
+```properties
+11.11.11.11
+    site: x11
+
+22.22.22.22
+    site: x12
+
+33.33.33.33
+    site: x11
+
+44.44.44.44
+    site: x12
+
+55.55.55.55
+    site: x13
+```
+
+1. 11.11.11.11、22.22.22.22、33.33.33.33、44.44.44.44和55.55.55.55.55都包含了标签site，且它们对应的值分别为x11、x12、x11、x12、x13。
+2. 我们先注册一个服务，下面挂载IP11.11.11.11和22.22.22.22。
+
+![1.png](../../../public/nacos/124.png)
+1. 然后我们修改服务的“服务路由类型”，并配置为基于同site优先的服务路由：
+
+![1.png](../../../public/nacos/125.png)
+1. 这里我们将服务路由类型选择为标签，然后输入标签的表达式：
+
+```java
+CONSUMER.label.site = PROVIDER.label.site
+``` 
+
+1. 这个表达式的格式和我们抽象的Selector机制有关，具体将会在另外一篇文章中介绍。在这里您需要记住的就是，任何一个如下格式的表达式：
+```java
+CONSUMER.label.labelName = PROVIDER.label.labelName
+```
+1. 将能够实现基于同labelName优先的负载均衡策略。
+2. 然后假设服务消费者的IP分别为33.33.33.33、44.44.44.44和55.55.55.55，它们在使用如下接口查询服务实例列表：
+```java
+naming.selectInstances("nacos.test.1", true)
+```
+1. 那么不同的消费者，将获取到不同的实例列表。33.33.33.33获取到11.11.11.11，44.44.44.44将获取到22.22.22.22，而55.55.55.55将同时获取到11.11.11.11和22.22.22.22。
+
+# 参考
+
+- [https://blog.csdn.net/weixin_31443757/article/details/113330942](https://blog.csdn.net/weixin_31443757/article/details/113330942)
+- [https://juejin.cn/post/7100913222680576008](https://juejin.cn/post/7100913222680576008)
+- [https://juejin.cn/post/7100157035232264199](https://juejin.cn/post/7100157035232264199)
+- [https://www.jianshu.com/p/8c2db391a4c6](https://www.jianshu.com/p/8c2db391a4c6)
+- [https://cloud.tencent.com/developer/article/1751460](https://cloud.tencent.com/developer/article/1751460)
