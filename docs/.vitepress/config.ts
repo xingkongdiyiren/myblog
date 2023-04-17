@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitepress'
+import {defineConfig} from 'vitepress'
 import markdownItKatex from 'markdown-it-katex'
 
 export default {
@@ -13,7 +13,10 @@ export default {
     cleanUrls: true,
     markdown: {
         config: (md) => {
-            md.use(markdownItKatex)
+            // use more markdown-it plugins!
+            md.use(markdownItKatex, 'image', {
+                'data-fancybox': "gallery"
+            })
         }
     },
     // 头部head
@@ -28,14 +31,9 @@ export default {
         ['meta', {name: 'theme-color', content: '#3c8772'}],
         [
             'script',
-            {
-                src: 'https://cdn.usefathom.com/script.js',
-                'data-site': 'AZBRSFGG',
-                'data-spa': 'auto',
-                defer: ''
-            },
+            {src: "https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"}
         ],
-        ['link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css', crossorigin: '' }]
+        ['link', {rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css"}]
     ],
     // 主题配置
     themeConfig: {
