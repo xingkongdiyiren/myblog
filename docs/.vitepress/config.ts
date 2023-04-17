@@ -363,8 +363,8 @@ function getActualComBatSeries() {
         {text: '通用组件Activiti7', link: '/Actual combat series/通用组件Activiti7'},
         {text: '通用组件分布式锁', link: '/Actual combat series/通用组件分布式锁'},
         {text: '通用组件Mybatis二次封装', link: '/Actual combat series/通用组件Mybatis二次封装'},
-        {text: '通用组件文件存储（OSS，七牛云）', link: '通用组件文件存储（OSS，七牛云）'},
-        {text: '通用组件ElasticJob', link: '通用组件ElasticJob'},
+        {text: '通用组件文件存储（OSS，七牛云）', link: '/Actual combat series/通用组件文件存储（OSS，七牛云）'},
+        {text: '通用组件ElasticJob', link: '/Actual combat series/通用组件ElasticJob'},
     ];
 }
 
