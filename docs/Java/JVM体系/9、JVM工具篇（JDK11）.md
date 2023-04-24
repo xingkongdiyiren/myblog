@@ -1383,7 +1383,7 @@ jhat -stack true -refs false 1.hprof
 ```
 
 
-等待片刻之后，访问 [http://localhost:7000/](http://localhost:7000/) 即可查看分析结果。
+等待片刻之后，访问 [http://127.0.0.1:7000/](http://127.0.0.1:7000/) 即可查看分析结果。
 
 
 ### 1.2.6、jhsdb
