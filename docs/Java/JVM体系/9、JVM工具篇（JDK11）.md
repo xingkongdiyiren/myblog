@@ -23,7 +23,7 @@ Windows：
 命令如下：
 
 -  jps -h
-![image (70).png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2Fimage%20%2870%29.png)
+![70.png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2F70.png)
 
 参数如下：
 
@@ -92,7 +92,7 @@ jps -l rmi://remote.comain:1231
 
 #### 1.1.2.2、使用说明
 
-![image (71).png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2Fimage%20%2871%29.png)
+![71.png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2F71.png)
 
 **option取值如下：**
 
@@ -388,7 +388,7 @@ jstat -gcutil 40496@remote.domain 1000
 #### 1.2.1.2、使用说明
 
 
-![image (72).png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2Fimage%20%2872%29.png)
+![72.png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2F72.png)
 
 
 | 参数                  | 说明                                                         |
@@ -483,7 +483,7 @@ jinfo -flag MaxHeapFreeRatio=80 42342
 
 #### 1.2.2.2、使用说明
 
-![image (73).png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2Fimage%20%2873%29.png)
+![73.png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2F73.png)
 
 **格式：**
 
@@ -569,7 +569,7 @@ jmap -dump:live,format=b,file=dump.hprof 63120
 
 #### 1.2.3.2、使用说明
 
-![image (74).png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2Fimage%20%2874%29.png)
+![74.png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2F74.png)
 
 -l  显示有关锁的额外信息
 
@@ -595,7 +595,7 @@ jmap -dump:live,format=b,file=dump.hprof 63120
 #### 1.2.4.2、使用说明
 
 
-![image (75).png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2Fimage%20%2875%29.png)
+![75.png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2F75.png)
 
 -f        从文件读取并执行命令
 
@@ -1345,7 +1345,7 @@ jcmd 48758 VM.systemdictionary -verbose
 
 jhat [options] heap-dump-file
 
-![image (1).png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2Fimage%20%281%29.png)
+![1.png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2F1.png)
 
 options的可选项如下：
 
@@ -1831,7 +1831,7 @@ jhsdb hsdb --pid 81033
 ##### 1.3.1.2.1、Java Threads
 
 **Java Threads**
-![image (3).png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2Fimage%20%283%29.png)
+![3.png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2F3.png)
 进入后，可看到类似如上图的界面：
 其中：
 
@@ -1843,12 +1843,12 @@ jhsdb hsdb --pid 81033
 - 选择一个线程，然后点击 Java Thread 对话框中的第一个图标，即可弹出 Inspector 对话框，从中可看到对线程的诊断。
 - 其中展示了对象头和指向对象元数据的指针，里面包括了Java类型的名字、继承关系、实现接口关系，字段信息、方法信息、运行时常量池的指针、内嵌的虚方法表（vtable）以及接口方法表（itable）等。其实都是HotSpot VM里记录线程的一些基本信息的C++对象的内容。 如果对C++不熟悉，阅读起来会有一些困难。
 
-![image (4).png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2Fimage%20%284%29.png)
+![4.png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2F4.png)
 **Stack Memory**
 
 - 选择一个线程，然后点击 Java Thread 对话框中的第二个图标，即可弹出 Stack Memory 对话框，里面是线程栈的内存数据。
 
-![image (5).png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2Fimage%20%285%29.png)
+![5.png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2F5.png)
 其中：
 
 - 第一列：内存地址（虚拟地址，非物理内存地址）
@@ -1861,16 +1861,16 @@ jhsdb hsdb --pid 81033
 - 输入inspect 想要查看对象的地址
 
 如下图所示：
-![image (6).png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2Fimage%20%286%29.png)
+![6.png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2F6.png)
 **Show Java stack trace**
 
 - 选择一个线程，然后点击 Java Thread 对话框中的第三个图标，即可弹出 Show Java stack trace 对话框，里面展示了这个线程的线程栈
 
-![image (7).png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2Fimage%20%287%29.png)
+![7.png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2F7.png)
 **Show Thread Information**
 
 - 选择一个线程，然后点击 Java Thread 对话框中的第四个图标，即可弹出 Show Thread Information 相关信息，里面展示了这个线程的信息。
-![image (8).png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2Fimage%20%288%29.png)
+![8.png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2F8.png)
 
 **Find Crashes**
 
@@ -1901,14 +1901,14 @@ jhsdb hsdb --pid 81033
 
 > jconsole
 
-![image (9).png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2Fimage%20%289%29.png)
+![9.png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2F9.png)
 
 - 对于本地JVM进程，jconsole会自动搜索踹，无需用户人工指定；
 - 如果想要连接远程进程，请参见《远程连接》相关的内容
 
 **使用**
 选择进程后，即可看到jconsole的使用窗口了，如下图所示。
-![image (10).png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2Fimage%20%2810%29.png)
+![10.png](..%2F..%2Fpublic%2Fjvm%2FJVM%E5%B7%A5%E5%85%B7%E7%AF%87%2F10.png)
 
 - 概览：展示虚拟机运行数据的概要信息，包括堆内存使用量、线程、类、CPU占用率的曲线图。这些曲线图本质上是内存、线程、类等几个页面的信息汇总。
 - 内存：用于监控虚拟机内存的变化趋势，相当于可视化的jstat命令。
