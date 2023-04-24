@@ -32,6 +32,10 @@ export default {
     ],
     // 主题配置
     themeConfig: {
+        // 配置顶部的文字(不配置则是英文)
+        outlineTitle: '文章目录',
+        // 表示显示h2-h6的标题
+        outline: [0,6],
         // 导航栏配置
         nav: [
             {text: 'Java', items: getJava()},
