@@ -180,46 +180,14 @@
 
 
 # 7、配置参数
-
-
 | 参数                           | 作用                                              |
-
 | ------------------------------ | ------------------------------------------------- |
-
 | -Xmixed                        | 混合模式运行（默认）                              |
-
 | -Xint                          | 设置JVM的执行模式为解释执行模式                   |
-
 | -Xcomp                         | JVM优先一编译模式运行，不能编译的，以解释模式运行 |
-
 | -XX:-TieredCompilation         | 禁止中间编译层                                    |
-
 | -XX:TieredStopAtLevel          | 到哪个分层停止                                    |
-
 | -XX:CompileThreshold=X         | 指定方法调用计数器阈值（关闭分层编译时才有效）    |
-
 | -XX:OnStackReplacePercentage=X | 指定回边计数器阈值（关闭分层编译时才有效）        |
-
 | -XX:-UseCounterDecay           | 关闭方法调用计数器热度衰减                        |
-
 | -XX:CounterHalfLifeTime        | 指定方法调用计数器半衰周期（秒）                  |
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
