@@ -337,6 +337,13 @@ function getOther() {
                 {text: 'Linux', link: '/other/线上环境/Linux'}
             ]
         },
+        {
+            text: '408', items: [
+                {text: '操作系统', link: '/other/408/操作系统'},
+                {text: '计算机组成', link: '/other/408/计算机组成'},
+                {text: '计算机网络', link: '/other/408/计算机网络'},
+            ]
+        },
     ];
 }
 
