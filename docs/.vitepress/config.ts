@@ -30,6 +30,12 @@ export default {
             },
         ]
     ],
+    markdown: {
+        externalLinks: {
+            target: '_blank', // 打开外链的方式，可以根据情况更改
+            rel: 'noopener noreferrer' // 标签中的 rel 属性，也可以根据情况更改
+        }
+    },
     // 主题配置
     themeConfig: {
         // 配置顶部的文字(不配置则是英文)
