@@ -305,7 +305,7 @@ CREATE TABLE `leaf_alloc` (
 ```bash
 leaf.name=com.sankuai.leaf.opensource.test
 leaf.segment.enable=true
-leaf.jdbc.url=jdbc:mysql://localhost:3306/leaf_test?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+leaf.jdbc.url=jdbc:mysql://127.0.0.1:3306/leaf_test?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
 leaf.jdbc.username=root
 leaf.jdbc.password=root
 
@@ -315,8 +315,8 @@ leaf.snowflake.enable=false
 ```
 
 启动leaf-server 模块的 LeafServerApplication项目就跑起来了
-号段模式获取分布式自增ID的测试url ：http：//localhost：8080/api/segment/get/leaf-segment-test
-监控号段模式：[http://localhost](https://link.segmentfault.com/?enc=6L2EH8fu%2B0nH9n1wUgfQvA%3D%3D.7G94jVarzX%2F1S%2BgeS9IqOnHrceytjWT5EyNroiXPW%2F8%3D):8080/cache
+号段模式获取分布式自增ID的测试url ：http：//127.0.0.1：8080/api/segment/get/leaf-segment-test
+监控号段模式：[http://127.0.0.1](https://link.segmentfault.com/?enc=6L2EH8fu%2B0nH9n1wUgfQvA%3D%3D.7G94jVarzX%2F1S%2BgeS9IqOnHrceytjWT5EyNroiXPW%2F8%3D):8080/cache
 
 ### snowflake模式
 
@@ -328,7 +328,7 @@ leaf.snowflake.zk.address=127.0.0.1
 leaf.snowflake.port=2181
 ```
 
-snowflake模式获取分布式自增ID的测试url：[http://localhost](https://link.segmentfault.com/?enc=1V47k1frzJ8qUK8ry8F3ug%3D%3D.EDmI2QGF6ZFl9rpRoK0EfyYPqjSzA46G7xsrNd4ZkFE%3D):8080/api/snowflake/get/test
+snowflake模式获取分布式自增ID的测试url：[http://127.0.0.1](https://link.segmentfault.com/?enc=1V47k1frzJ8qUK8ry8F3ug%3D%3D.EDmI2QGF6ZFl9rpRoK0EfyYPqjSzA46G7xsrNd4ZkFE%3D):8080/api/snowflake/get/test
 
 ## 9、滴滴（Tinyid）
 
@@ -400,11 +400,11 @@ datasource.tinyid.primary.password=123456
 （4）启动tinyid-server后测试
 
 ```java
-获取分布式自增ID: http://localhost:9999/tinyid/id/nextIdSimple?bizType=test&token=0f673adf80504e2eaa552f5d791b644c'
+获取分布式自增ID: http://127.0.0.1:9999/tinyid/id/nextIdSimple?bizType=test&token=0f673adf80504e2eaa552f5d791b644c'
 返回结果: 3
 
 批量获取分布式自增ID:
-http://localhost:9999/tinyid/id/nextIdSimple?bizType=test&token=0f673adf80504e2eaa552f5d791b644c&batchSize=10'
+http://127.0.0.1:9999/tinyid/id/nextIdSimple?bizType=test&token=0f673adf80504e2eaa552f5d791b644c&batchSize=10'
 返回结果:  4,5,6,7,8,9,10,11,12,13
 ```
 
@@ -424,7 +424,7 @@ http://localhost:9999/tinyid/id/nextIdSimple?bizType=test&token=0f673adf80504e2e
 配置文件
 
 ```java
-tinyid.server =localhost:9999
+tinyid.server =127.0.0.1:9999
 tinyid.token =0f673adf80504e2eaa552f5d791b644c
 ```
 

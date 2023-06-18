@@ -361,7 +361,7 @@ MasterSlaveEntry [
 	]
 ]
 ```
-此时就是已经知道了，其实必须是将加锁的那段lua脚本，放到redis://localhost:6382这个master实例上去执行，完成加锁的操作，接着往下走，看看他的参数是什么？
+此时就是已经知道了，其实必须是将加锁的那段lua脚本，放到redis://127.0.0.1:6382这个master实例上去执行，完成加锁的操作，接着往下走，看看他的参数是什么？
 ```java
 public <T, R> RFuture<R> evalWriteAsync(String key, Codec codec, RedisCommand<T> evalCommandType, String script, List<Object> keys, Object... params) {
     NodeSource source = this.getNodeSource(key);
