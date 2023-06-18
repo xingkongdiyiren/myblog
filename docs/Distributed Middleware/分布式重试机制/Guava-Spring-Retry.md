@@ -247,7 +247,7 @@ public class MyBaseTest {
 ```
 
 我们只要在需要重试的方法上加@Retryable,在重试失败的回调方法上加@Recover,下面是这些注解的属性
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/1738514/1640053352794-a18b4c4d-53d3-4e21-8673-669822e2b28f.png#averageHue=%23fcfbfa&clientId=uffbae20d-9c16-4&from=paste&height=500&id=uc0b9cdf4&originHeight=864&originWidth=795&originalType=binary&ratio=1&rotation=0&showTitle=false&size=119033&status=done&style=none&taskId=ue7cf3e02-8fe9-4e21-a215-296cce4fbb3&title=&width=460)
+![4.png](../../public/重试机制/4.png)
 建一个service类
 
 ```java
@@ -321,11 +321,11 @@ public class SpringRetryDemoTest extends MyBaseTest {
 这里我依然是RemoteAccessException的异常才重试,@Backoff(delay = 2000L,multiplier = 2))表示第一次间隔2秒,以后都是次数的2倍,也就是第二次4秒,第三次6秒.
 来测试一下:
 遇到了没有指定重试的异常,这里指定重试的异常是 @Retryable(value = {RemoteAccessException.class}...,所以抛出参数异常IllegalArgumentException的时候,直接回调@Recover的方法
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/1738514/1640053458682-a35a8642-38bc-4711-92c0-7624de805702.png#averageHue=%232d2b2a&clientId=uffbae20d-9c16-4&from=paste&height=250&id=u189ea147&originHeight=340&originWidth=1224&originalType=binary&ratio=1&rotation=0&showTitle=false&size=328740&status=done&style=none&taskId=u3cb581d0-9330-40eb-9b2b-80a4029d4d8&title=&width=900)
+![5.png](../../public/重试机制/5.png)
 重试达到最大重试次数时,调用@Recover的方法
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/1738514/1640053480736-d291bc02-0c34-4ba5-8429-62869ba072f3.png#averageHue=%232e2d2c&clientId=uffbae20d-9c16-4&from=paste&height=140&id=u66d353ff&originHeight=421&originWidth=1387&originalType=binary&ratio=1&rotation=0&showTitle=false&size=449062&status=done&style=none&taskId=ubd2d6267-de4b-4f8b-820b-f7bc5162dd0&title=&width=462.3333333333333)
+![6.png](../../public/重试机制/6.png)
 重试到最后一次没有报错,返回false
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/1738514/1640053502764-5abfa1f0-d640-4a09-87a8-417bc91d03a1.png#averageHue=%232b2b2a&clientId=uffbae20d-9c16-4&from=paste&height=153&id=u94619fec&originHeight=458&originWidth=1235&originalType=binary&ratio=1&rotation=0&showTitle=false&size=448695&status=done&style=none&taskId=u72dcf995-08cd-4f68-ba6f-e481eeaae11&title=&width=411.6666666666667)
+![7.png](../../public/重试机制/7.png)
 
 # 2、重试框架之Guava-Retry
 
@@ -428,15 +428,15 @@ public class GuavaRetryTest {
 
 运行测试一下
 遇到了我们指定的需要重试的异常,进行重试,间隔是3秒
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/1738514/1640053602964-d02fac9f-8aa0-47e1-a43f-8554ba6fad1a.png#averageHue=%232c2b2b&clientId=uffbae20d-9c16-4&from=paste&height=130&id=u9ae98373&originHeight=391&originWidth=832&originalType=binary&ratio=1&rotation=0&showTitle=false&size=173642&status=done&style=none&taskId=u83672d85-c740-4e30-9faa-96727e428cc&title=&width=277.3333333333333)
+![8.png](../../public/重试机制/8.png)
 重试次数超过了最大重试次数
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/1738514/1640053615782-2cf2bcde-d0cb-45bf-b110-11d646de7772.png#averageHue=%232f2c2c&clientId=uffbae20d-9c16-4&from=paste&height=214&id=u74acedd1&originHeight=643&originWidth=929&originalType=binary&ratio=1&rotation=0&showTitle=false&size=334128&status=done&style=none&taskId=u5842afe8-3a84-4c6e-bf54-0f06b01e2a8&title=&width=309.6666666666667)
+![9.png](../../public/重试机制/9.png)
 返回为true,直接结束重试
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/1738514/1640053627833-304340c1-0d42-49ae-b371-ff5ca03f3f7d.png#averageHue=%232d2d2d&clientId=uffbae20d-9c16-4&from=paste&height=102&id=u2718ae0e&originHeight=306&originWidth=821&originalType=binary&ratio=1&rotation=0&showTitle=false&size=113272&status=done&style=none&taskId=u1a679c5a-3eee-4373-aba2-ad15541236f&title=&width=273.6666666666667)
+![10.png](../../public/重试机制/10.png)
 遇到了没有指定重试的异常,结束重试
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/1738514/1640053640093-b37e7797-304d-485e-b057-c63910720ccf.png#averageHue=%232e2c2c&clientId=uffbae20d-9c16-4&from=paste&height=227&id=uce12a751&originHeight=682&originWidth=1251&originalType=binary&ratio=1&rotation=0&showTitle=false&size=522960&status=done&style=none&taskId=u993b9cb0-57a5-402e-ba7b-885fddc297b&title=&width=417)
+![11.png](../../public/重试机制/11.png)
 返回false,重试
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/1738514/1640053649919-4ac6ac1b-2bd8-4da5-958b-9328b25b4db2.png#averageHue=%232c2c2c&clientId=uffbae20d-9c16-4&from=paste&height=129&id=u2bd05e14&originHeight=387&originWidth=799&originalType=binary&ratio=1&rotation=0&showTitle=false&size=160072&status=done&style=none&taskId=ue4dd425d-0ef1-47b0-ab71-7ed73c841ab&title=&width=266.3333333333333)
+![12.png](../../public/重试机制/12.png)
 我们可以更灵活的配置重试策略,比如:
 
 - retryIfException
@@ -486,8 +486,9 @@ retryIfExceptionOfType(NullPointerException.class)// 只在抛出空指针异常
 ```
 
 主要接口
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/1738514/1640053771469-e254a9dd-5425-4d42-ac8a-f41c5b3c65ce.png#averageHue=%23fbfaf9&clientId=uffbae20d-9c16-4&from=paste&height=250&id=u0edd2776&originHeight=467&originWidth=804&originalType=binary&ratio=1&rotation=0&showTitle=false&size=70357&status=done&style=none&taskId=u62904648-7c42-48e1-89e6-74d2998f1b3&title=&width=430)
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/1738514/1640053793247-fa8934ef-5039-432b-8786-95aa7c68f5c4.png#averageHue=%23fdfcfb&clientId=uffbae20d-9c16-4&from=paste&height=500&id=u0788f993&originHeight=886&originWidth=734&originalType=binary&ratio=1&rotation=0&showTitle=false&size=101530&status=done&style=none&taskId=u05492d37-550a-4fe7-887e-3b2d65d7c1f&title=&width=414)
+![13.png](../../public/重试机制/13.png)
+
+![14.png](../../public/重试机制/14.png)
 
 # 3、总结
 
