@@ -345,9 +345,9 @@ spring:
 ```
 
 3：在nacos控制台配置管理里编辑对应规则，配置格式选择json
-![5.png](../../../public/Spring%20Cloud/sentinel/5.png)
-![6.png](../../../public/Spring%20Cloud/sentinel/6.png)
-![7.png](../../../public/Spring%20Cloud/sentinel/7.png)
+![5.png](../../../public/Spring Cloud/sentinel/5.png)
+![6.png](../../../public/Spring Cloud/sentinel/6.png)
+![7.png](../../../public/Spring Cloud/sentinel/7.png)
 流控规则json格式如下：
 
 ```json
