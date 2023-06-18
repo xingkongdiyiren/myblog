@@ -232,7 +232,7 @@ lock是底层的RedissonLock，加锁逻辑就和可重入锁加锁并无区别�
 哪怕是获取到锁之后，这个锁在多长时间内会自动释放，因为你的newLeaseTime是-1，所以说如果获取到了锁，会启动一个lock watchdog不断的刷新你的锁key的生存时间为30000毫秒
 
 加锁成功，则将成功的锁放进 acquiredLocks 集合中；加锁失败，需要判断 failedLocksLimit，因为这里是 0所以会直接对成功加锁集合 acquiredLocks 中的所有锁执行锁释放，同时清空成功集合，恢复迭代器
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/34922072/1681873567592-f5ba09f8-de82-4ece-a963-9a379868afbe.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_39%2Ctext_5p2O5pyJ5Lm-%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23fbfbfb&clientId=u9c9ff610-9f7b-4&from=paste&height=1020&id=HQqF3&originHeight=1400&originWidth=1384&originalType=binary&ratio=2&rotation=0&showTitle=false&size=126437&status=done&style=none&taskId=u8e3fed99-d8d1-4356-b40d-dbea009f04f&title=&width=1008)
+![28.png](../../public/分布式锁/28.png)
 ### 加锁失败释放锁逻辑代码
 ```java
 protected void unlockInner(Collection<RLock> locks) {

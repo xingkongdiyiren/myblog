@@ -1,11 +1,11 @@
 # 一、前言回顾
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/34922072/1681445337264-4003be2b-f0e6-4cc0-b72a-14b406836e0f.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_43%2Ctext_5p2O5pyJ5Lm-%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23fcfcfc&clientId=u00b5c259-c625-4&from=paste&height=339&id=ufcd9a267&originHeight=677&originWidth=1500&originalType=binary&ratio=2&rotation=0&showTitle=false&size=286629&status=done&style=none&taskId=uffa09f39-9626-4528-a244-5fc24a060ba&title=&width=750)
+![21.png](../../public/分布式锁/21.png)
 
 我们前一篇文章分析出来大概知道：如果客户端一直持有锁，没有释放，redis中的锁key是如何一直保持着存活不要过期的？无非就是靠的是后台每隔10秒的定时调度任务
 
 并且如果持有锁的客户端宕机了，锁没有了定时调度任务更新生存周期，30秒过后自然就释放掉了
 
-前篇文章入口：[06_redis分布式锁（三）：可重入锁源码剖析之watchdog维持加锁](https://lyqian.yuque.com/org-wiki-lyqian-zm3pdh/nhmyrc/ymrvq0f8p0ffdlvm)
+前篇文章入口：[06_redis分布式锁（三）：可重入锁源码剖析之watchdog维持加锁](06_redis分布式锁（三）：可重入锁源码剖析之watchdog维持加锁.md)
 # 
 # 二、可重入加锁
 

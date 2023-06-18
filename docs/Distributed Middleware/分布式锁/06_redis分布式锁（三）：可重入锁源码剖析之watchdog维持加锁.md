@@ -1,10 +1,10 @@
 # 一、前言回顾
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/34922072/1681356251553-d67fdb18-af92-4bb7-87b5-849f02822774.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_47%2Ctext_5p2O5pyJ5Lm-%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23fcfcfc&clientId=ueaf1829a-e15a-4&from=paste&height=412&id=u8bd21bc9&originHeight=824&originWidth=1638&originalType=binary&ratio=2&rotation=0&showTitle=false&size=84663&status=done&style=none&taskId=ud96113f3-a2d7-41ca-a483-a28282560c0&title=&width=819)
+![19.png](../../public/分布式锁/19.png)
 我们前一篇文章分析出来大概就知道加锁的逻辑是：会执行一段lua脚本，并且将加锁的那段lua脚本，放到redis://localhost:6382这个master实例上去执行，完成加锁的操作
 
 同时会产生出疑问：如果某个客户端上锁了之后，可能过了5分钟，10分钟，都没释放掉这个锁，那么会怎么样呢？锁对应的key刚开始的生存周期其实就是30秒而已，难道是默认情况下30秒后这个锁就自动释放？？？
 
-前篇文章入口：[05_redis分布式锁（二）：可重入锁源码剖析之lua脚本加锁逻辑](https://lyqian.yuque.com/org-wiki-lyqian-zm3pdh/nhmyrc/gm2i82z9guf3i7e9)
+前篇文章入口：[05_redis分布式锁（二）：可重入锁源码剖析之lua脚本加锁逻辑](05_redis分布式锁（二）：可重入锁源码剖析之lua脚本加锁逻辑.md)
 # 二、watchdog监听延长锁
 
 从源码的层面，接着往下看一下，如果成功的对某个key加锁了之后，watchdog是如何去延长一下那个key的生存时间的？回到我们加锁的lua脚本
@@ -125,7 +125,7 @@ protected RFuture<Boolean> renewExpirationAsync(long threadId) {
 但是因为他里面的那个8e6b27a7-5346-483a-b9b5-0957c690c27f:1还存在，说明客户端还持有着这把锁，所以他就会延长一下生存时间，anyLock这个key的生存时间重新变为30秒，再次开始
 
 接下来我们就可以得出结论：只要你的anyLock这个锁还被当前的这个客户端的这个线程持有了锁，redis里的那个数据还存在，那么就靠这个定时调度的任务，就可以不断的刷新anyLock的生存时间，保证说，你的客户端只要一直持有这把锁，那么他对应的redis里的key，也会一直保持存在，不会过期的
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/34922072/1681359476255-0825698a-53b4-4cba-9868-2f3c7f727278.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_67%2Ctext_5p2O5pyJ5Lm-%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23fafaf9&clientId=ueaf1829a-e15a-4&from=paste&height=527&id=u623f0853&originHeight=1054&originWidth=2336&originalType=binary&ratio=2&rotation=0&showTitle=false&size=626397&status=done&style=none&taskId=uaa84d4ad-2366-4ff7-80a5-6834efae41c&title=&width=1168)
+![20.png](../../public/分布式锁/20.png)
 同时可以看到代码里对Task又做了一次结果的监听，若失败则日志输出，若成功则继续又进入这个方法里
 ```java
 RFuture<Boolean> future = RedissonLock.this.renewExpirationAsync(threadId);
@@ -144,7 +144,7 @@ future.addListener(new FutureListener<Boolean>() {
     }
 });
 ```
- 
+
 现在我们算是已经知道了客户端是如何维持加锁的了，就是通过一个后台定时任务、每隔10s定时检查key如果存在，就为它自动续期30s
 
 # 三、如果持有锁的那台机器宕机了呢？

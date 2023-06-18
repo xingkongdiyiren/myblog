@@ -6,7 +6,7 @@ Redisson 除了提供了分布式锁之外，还额外提供了同步组件，Se
 # 二、Semaphore
 
 RSemaphore基于 Redis 的[Semaphore](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Semaphore.html?is-external=true)开发。使用RSemaphore获取资源的顺序是不可预测的，所以它是一种非公平锁。可以理解为分布式的信号量，它的作用是用来**限制同时访问共享区域的线程数量。**意思就是在分布式场景下，假设只有 3 个凭证，也就意味着同时只会有三个线程执行业务
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/34922072/1682046716787-8e7ee5eb-9b20-41e8-bdce-83231cb3b2cc.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_28%2Ctext_5p2O5pyJ5Lm-%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23f4f4f4&clientId=u95ca8ec8-d231-4&from=paste&height=475&id=u12ecf802&originHeight=421&originWidth=984&originalType=binary&ratio=2&rotation=0&showTitle=false&size=38955&status=done&style=none&taskId=ufcab31c0-9efd-4e15-9402-ff7d9f71066&title=&width=1110)
+![37.png](../../public/分布式锁/37.png)
 
 ## 常见方法总结
 | Modifier and Type | Method | Description |

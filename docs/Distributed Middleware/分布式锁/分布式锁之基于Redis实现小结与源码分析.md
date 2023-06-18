@@ -160,7 +160,7 @@ lua脚本可以保证复杂判断和复杂操作的原子性，加锁主要步�
 1. 处理加锁Lua脚本
 2. 根据Key计算出slot，找到执行Lua脚本的节点
 3. 若是没有传入过期时间，默认启用看门狗续命持有锁
-## ![](https://cdn.nlark.com/yuque/0/2023/png/34922072/1681702031706-5247ba21-da0e-4221-9cf7-6642e5decb7a.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_44%2Ctext_5p2O5pyJ5Lm-%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10%2Fresize%2Cw_1016%2Climit_0%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_29%2Ctext_5p2O5pyJ5Lm-%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23fbfbfb&from=url&height=829&id=Q1OQm&originHeight=458&originWidth=1016&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=1838)
+![38.png](../../public/分布式锁/38.png)
 
 ## 释放锁逻辑和Lua分析
 
@@ -208,7 +208,7 @@ void cancelExpirationRenewal(Long threadId) {
     }
 }
 ```
-![](https://cdn.nlark.com/yuque/0/2023/png/34922072/1681703518051-d36387b6-39f8-4d74-9b1a-43805dfcf623.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_20%2Ctext_5p2O5pyJ5Lm-%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_20%2Ctext_5p2O5pyJ5Lm-%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23f8f8f8&from=url&height=1168&id=fOYiF&originHeight=481&originWidth=700&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=&width=1700)
+![39.png](../../public/分布式锁/39.png)
 
 ### 释放锁小结
 还是基于 lua 脚本来完成的，lua脚本可以保证复杂判断和复杂操作的原子性，解锁主要步骤如下：
@@ -540,7 +540,7 @@ lock是底层的RedissonLock，加锁逻辑就和可重入锁加锁并无区别�
 
 哪怕是获取到锁之后，这个锁在多长时间内会自动释放，因为你的newLeaseTime是-1，所以说如果获取到了锁，会启动一个lock watchdog不断的刷新你的锁key的生存时间为30000毫秒。加锁成功，则将成功的锁放进 acquiredLocks 集合中；加锁失败，需要判断 failedLocksLimit，因为这里是 0所以会直接对成功加锁集合 acquiredLocks 中的所有锁执行锁释放，同时清空成功集合，恢复迭代器
 
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/34922072/1682219859328-04942ab3-9014-4dd9-a3cf-a2985f462b0f.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_39%2Ctext_5p2O5pyJ5Lm-%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23fbfbfb&clientId=ude7836fa-5bd3-4&from=paste&height=1489&id=u66527568&originHeight=1400&originWidth=1384&originalType=binary&ratio=2&rotation=0&showTitle=false&size=129966&status=done&style=none&taskId=u57c4f21f-af1d-4ffa-9a55-18ceedee618&title=&width=1472)
+![40.png](../../public/分布式锁/40.png)
 
 ### 加锁失败释放锁逻辑代码
 ```java

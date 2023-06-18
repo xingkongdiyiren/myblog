@@ -216,10 +216,10 @@ protected RFuture<Boolean> renewExpirationAsync(long threadId) {
 }
 ```
 ## 加锁操作流程图
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/34922072/1681702031706-5247ba21-da0e-4221-9cf7-6642e5decb7a.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_44%2Ctext_5p2O5pyJ5Lm-%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23fbfbfb&clientId=u550b0629-c693-4&from=paste&height=458&id=u16d58eb3&originHeight=700&originWidth=1552&originalType=binary&ratio=2&rotation=0&showTitle=false&size=314170&status=done&style=none&taskId=ue0ab6e29-c019-4e04-a3d5-bdfa20066ea&title=&width=1016)
+![25.png](../../public/分布式锁/25.png)
 ## 其他的线程或者是其他客户端也加锁处理情况
 如果说客户端A已经上锁了，还持有着这把锁，此时客户端B尝试加锁，此时就会直接执行pttl anyLock指令，返回这个key剩余的一个存活时间
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/34922072/1681702719072-452a3aa9-2214-40a3-accd-9cdebc4672a6.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_44%2Ctext_5p2O5pyJ5Lm-%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23fbfbfb&clientId=u550b0629-c693-4&from=paste&height=450&id=u57b99315&originHeight=702&originWidth=1552&originalType=binary&ratio=2&rotation=0&showTitle=false&size=162037&status=done&style=none&taskId=u71c2d9d2-c006-4426-900e-88918a9a337&title=&width=995)
+![26.png](../../public/分布式锁/26.png)
 如果是第一次获取锁的时候就会获取结果Null，ttl一定是null；如果是一个线程多次加锁，可重入锁的概念，此时ttl也一定是null，lua脚本里返回的就是nil；但是如果加锁没成功，锁被其他机器占用了，执行lua脚本直接获取到的是这个key对应的剩余时间
 ```java
 if (ttl != null) {
@@ -319,7 +319,7 @@ void cancelExpirationRenewal(Long threadId) {
 ```
 
 ## 释放锁流程图
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/34922072/1681703518051-d36387b6-39f8-4d74-9b1a-43805dfcf623.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_20%2Ctext_5p2O5pyJ5Lm-%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23f8f8f8&clientId=u550b0629-c693-4&from=paste&height=733&id=u2babd912&originHeight=481&originWidth=700&originalType=binary&ratio=2&rotation=0&showTitle=false&size=35333&status=done&style=none&taskId=u871b080c-b34d-40b6-bc5b-79bd9e27b82&title=&width=1067)
+![27.png](../../public/分布式锁/27.png)
 
 
 
@@ -343,11 +343,17 @@ redis加锁，本质还是在redis集群中挑选一个master实例来加锁，m
 此时两个客户端，都会获取同一把分布式锁，可能有的时候就会导致一些数据的问题，redisson的分布式锁，隐患主要就是在这里
 
 # 七、可重入锁细节解析文章
-[04_redis分布式锁（一）：可重入锁源码剖析之使用场景介绍](https://www.yuque.com/zhzbaishen/ldbu6i/ccvrudpg97rm6rnv)
-[05_redis分布式锁（二）：可重入锁源码剖析之lua脚本加锁逻辑](https://www.yuque.com/zhzbaishen/ldbu6i/ui0qek7gt4dnb9ft)
-[06_redis分布式锁（三）：可重入锁源码剖析之watchdog维持加锁](https://www.yuque.com/zhzbaishen/ldbu6i/fycg94qudpatnrn6)
-[07_redis分布式锁（四）：可重入锁源码剖析之可重入加锁](https://www.yuque.com/zhzbaishen/ldbu6i/apx46qdrz1l9871h)
-[08_redis分布式锁（五）：可重入锁源码剖析之锁的互斥阻塞](https://www.yuque.com/zhzbaishen/ldbu6i/hd8fybenlnyk0i1q)
-[09_redis分布式锁（六）：可重入锁源码剖析之释放锁](https://www.yuque.com/zhzbaishen/ldbu6i/xvm6z70qu9z3e8em)
-[10_redis分布式锁（七）：可重入锁源码剖析之获取锁超时与自动释放](https://www.yuque.com/zhzbaishen/ldbu6i/xfnegr1t1i32z20v)
+[04_redis分布式锁（一）：可重入锁源码剖析之使用场景介绍](04_redis分布式锁（一）：可重入锁源码剖析之使用场景介绍.md)
+
+[05_redis分布式锁（二）：可重入锁源码剖析之lua脚本加锁逻辑](05_redis分布式锁（二）：可重入锁源码剖析之lua脚本加锁逻辑.md)
+
+[06_redis分布式锁（三）：可重入锁源码剖析之watchdog维持加锁](06_redis分布式锁（三）：可重入锁源码剖析之watchdog维持加锁.md)
+
+[07_redis分布式锁（四）：可重入锁源码剖析之可重入加锁](07_redis分布式锁（四）：可重入锁源码剖析之可重入加锁.md)
+
+[08_redis分布式锁（五）：可重入锁源码剖析之锁的互斥阻塞](08_redis分布式锁（五）：可重入锁源码剖析之锁的互斥阻塞.md)
+
+[09_redis分布式锁（六）：可重入锁源码剖析之释放锁](09_redis分布式锁（六）：可重入锁源码剖析之释放锁.md)
+
+[10_redis分布式锁（七）：可重入锁源码剖析之获取锁超时与自动释放](10_redis分布式锁（七）：可重入锁源码剖析之获取锁超时与自动释放.md)
 

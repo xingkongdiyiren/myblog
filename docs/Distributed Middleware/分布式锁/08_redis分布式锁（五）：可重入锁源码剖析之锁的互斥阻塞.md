@@ -4,12 +4,12 @@
 
 同时在加锁的lua脚本中则，对这个hash的key值进行累加1，并且重新刷新为30000毫秒
 
-前篇文章入口：[07_redis分布式锁（四）：可重入锁源码剖析之可重入加锁](https://lyqian.yuque.com/org-wiki-lyqian-zm3pdh/nhmyrc/tyc6eeg3ftum697g)
+前篇文章入口：[07_redis分布式锁（四）：可重入锁源码剖析之可重入加锁](07_redis分布式锁（四）：可重入锁源码剖析之可重入加锁.md)
 # 二、其他的线程或者是其他客户端也加锁怎么搞？
 
 如果已经有一个客户端的线程对一个key加了锁，那么此时其他的线程或者是客户端如果也要对这个key加锁，是如何被阻塞住的呢？（部署在其他机器上的服务实例，或者是部署在其他机器上的其他服务）
 
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/34922072/1681447896832-baaf2a48-68dd-4b59-bcc0-96a88fe774df.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_67%2Ctext_5p2O5pyJ5Lm-%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10#averageHue=%23fbfbfb&clientId=u1bf56cf7-6ade-4&from=paste&height=528&id=ud7b88b7f&originHeight=1056&originWidth=2334&originalType=binary&ratio=2&rotation=0&showTitle=false&size=202534&status=done&style=none&taskId=u86977396-74c0-4d58-80b8-8b055632184&title=&width=1167)
+![22.png](../../public/分布式锁/22.png)
 ```java
  "if (redis.call('exists', KEYS[1]) == 0) then " +
       "redis.call('hset', KEYS[1], ARGV[2], 1); " +
