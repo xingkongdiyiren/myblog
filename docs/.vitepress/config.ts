@@ -213,7 +213,7 @@ function getSpring() {
                 {text: '负载均衡', link: '/Spring Family/微服务/SpringCloud体系/负载均衡'},
                 {text: '运维与监控', link: '/Spring Family/微服务/SpringCloud体系/运维与监控'},
                 {text: '链路追踪', link: '/Spring Family/微服务/SpringCloud体系/链路追踪'},
-                {text: '限流和容错', link: '/Spring Family/微服务/SpringCloud体系/限流和容错'},
+                {text: 'Sentinel生产使用', link: '/Spring Family/微服务/SpringCloud体系/Sentinel生产使用'},
             ]
         },
         {
