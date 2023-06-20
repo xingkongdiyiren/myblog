@@ -128,8 +128,16 @@ function getJava() {
                     link: '/Java/JVM体系/JVM调优篇/5、方法区溢出'
                 },
                 {
+                    text: 'Metaspace泄漏排查',
+                    link: '/Java/JVM体系/JVM调优篇/5.1、Metaspace泄漏排查'
+                },
+                {
                     text: '直接内存溢出',
                     link: '/Java/JVM体系/JVM调优篇/6、直接内存溢出'
+                },
+                {
+                    text: 'Java直接内存与非直接内存性能测试',
+                    link: '/Java/JVM体系/JVM调优篇/6.1、Java直接内存与非直接内存性能测试'
                 },
                 {
                     text: '代码缓存区（Code Cache）满',
