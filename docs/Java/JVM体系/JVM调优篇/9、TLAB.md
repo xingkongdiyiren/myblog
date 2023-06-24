@@ -30,7 +30,7 @@
 
 # 6、对象分配总结
 
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/1738514/1649005633253-4193d2c4-dacf-4f47-b734-223a64bf9083.png#clientId=u2b0a88a9-d6cb-4&from=paste&height=259&id=ue37d8d2e&originHeight=570&originWidth=2174&originalType=binary&ratio=1&rotation=0&showTitle=false&size=359379&status=done&style=none&taskId=u6908fce2-0b62-4f2a-b050-532f1c31c83&title=&width=988.1817967635545)
+![39.png](../../../public/jvm/调优/39.png)
 
 # 7、测试用例
 
