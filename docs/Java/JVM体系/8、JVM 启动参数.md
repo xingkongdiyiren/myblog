@@ -7,7 +7,7 @@
 
 # 1、系统属性参数
 
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/1738514/1632314753971-c0d93f2e-b16e-4d8a-a3c2-87c4a7cf1400.png#clientId=u90a07aff-e91b-4&from=paste&height=508&id=uf81264fb&name=image.png&originHeight=1016&originWidth=1032&originalType=binary&ratio=1&rotation=0&showTitle=false&size=829563&status=done&style=none&taskId=ud9781c26-3610-4004-9b77-2faf97f2288&title=&width=516)
+![76.png](../../public/jvm/JVM工具篇/76.png)
 
 - 全局定义设置
     - -Dfile.encoding=UTF-8 -Duser.timezone=GMT+08
@@ -27,11 +27,11 @@
 
 # 3、堆内存设置参数
 
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/1738514/1632314845183-beb03470-ff0e-4580-8e12-1ed9ab337163.png#clientId=u90a07aff-e91b-4&from=paste&height=200&id=uc91a6d92&name=image.png&originHeight=400&originWidth=802&originalType=binary&ratio=1&rotation=0&showTitle=false&size=109399&status=done&style=none&taskId=ua6ccede7-16c2-4273-b571-75b01625556&title=&width=401)
+![77.png](../../public/jvm/JVM工具篇/77.png)
 
 - Xmx、Xms、Xmn、Meta、DirectMemory、Xss的关系
 
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/1738514/1632315600154-27e1b29a-79eb-4459-afec-908da809dcf3.png#clientId=u507de1fd-29aa-4&from=paste&height=269&id=ubf44ff1b&name=image.png&originHeight=538&originWidth=878&originalType=binary&ratio=1&rotation=0&showTitle=false&size=241206&status=done&style=none&taskId=u4691d2ae-3b43-4acd-b004-9af1d5a9eed&title=&width=439)
+![78.png](../../public/jvm/JVM工具篇/78.png)
 Spring Boot程序的JVM参数设置格式(Tomcat启动直接加在bin目录下catalina.sh文件里)：
 
 >  java ‐Xms2048M ‐Xmx2048M ‐Xmn1024M ‐Xss512K ‐XX:MetaspaceSize=256M ‐XX:MaxMetaspaceSize=256M ‐jar microservice‐eurek a‐server.jar
@@ -69,14 +69,14 @@ public class StackOverflowTest {
 ```
 
 结论：-Xss设置越小count值越小，说明一个线程栈里能分配的栈帧就越少，但是对JVM整体来说能开启的线程数会更多
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/1738514/1632318089031-bf93095f-7228-4611-9d2e-3b4f400cb5d0.png#clientId=u507de1fd-29aa-4&from=paste&height=841&id=ue1e69540&name=image.png&originHeight=1682&originWidth=1244&originalType=binary&ratio=1&rotation=0&showTitle=false&size=432648&status=done&style=none&taskId=uc1f90b9d-2a48-4b3c-9100-dce54dfab99&title=&width=622)
+![79.png](../../public/jvm/JVM工具篇/79.png)
 
 - 结论：尽可能让对象都在新生代里分配和回收，尽量别 让太多对象频繁进入老年代，避免频繁对老年代进行垃圾回收，同时给系统充足的内存大小，避免新生代频繁的进行垃 圾回收。
 
 # 4、GC 设置参数
 
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/1738514/1632314910053-f76a0af9-442f-4b27-b9f9-e293ca8deaea.png#clientId=u90a07aff-e91b-4&from=paste&height=155&id=u18d10bfa&name=image.png&originHeight=310&originWidth=632&originalType=binary&ratio=1&rotation=0&showTitle=false&size=132701&status=done&style=none&taskId=ub2254059-efbc-4dac-81d9-4ab1cfa3229&title=&width=316)
-![image.png](https://cdn.nlark.com/yuque/0/2021/png/1738514/1632314932608-6210e113-25c3-4d9e-815e-1e36bc973b27.png#clientId=u90a07aff-e91b-4&from=paste&height=208&id=uab5fe702&name=image.png&originHeight=416&originWidth=1398&originalType=binary&ratio=1&rotation=0&showTitle=false&size=339324&status=done&style=none&taskId=u65727f6e-a293-46fa-a1b6-e6e4b423164&title=&width=699)
+![80.png](../../public/jvm/JVM工具篇/80.png)
+![81.png](../../public/jvm/JVM工具篇/81.png)
 
 - -XX：+UseG1GC：使用 G1 垃圾回收器
 - -XX：+UseConcMarkSweepGC：使用 CMS 垃圾回收器
@@ -126,5 +126,3 @@ public class StackOverflowTest {
 | -XX:+DisableExplicitGC       | 忽略掉System.gc()的调用                   | 启用   |
 | -XX:NewSize=n                | 新生代初始内存大小                        | -      |
 | -XX:MaxNewSize=n             | 新生代最大内存                            | -      |
-
-​	
