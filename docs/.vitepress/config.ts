@@ -85,7 +85,8 @@ function getJava() {
                 {text: '注解机制', link: '/Java/基础/3-注解机制'},
                 {text: '异常机制', link: '/Java/基础/4-异常机制'},
                 {text: 'SPI机制', link: '/Java/基础/5-SPI机制'},
-                {text: 'Stream流', link: '/Java/基础/6-Stream流'},
+                {text: '反射机制', link: '/Java/基础/6-反射机制'},
+                {text: 'Stream流', link: '/Java/基础/7-Stream流'},
             ]
         },
         {
