@@ -82,7 +82,11 @@ function getKaoYan() {
             text: '操作系统', items: [
                 {text: '第1章 操作系统概述', link: '/kaoyan/操作系统/第1章 操作系统概述'},
                 {text: '第2章 内存管理', link: '/kaoyan/操作系统/第2章 内存管理'},
-                {text: '第3章、进程和线程', link: '/kaoyan/操作系统/第3章、进程和线程'},
+                {text: '第3章 进程和线程', link: '/kaoyan/操作系统/第3章 进程和线程'},
+                {text: '第4章 进程间通信', link: '/kaoyan/操作系统/第4章 进程间通信'},
+                {text: '第5章 文件系统', link: '/kaoyan/操作系统/第5章 文件系统'},
+                {text: '第6章 设备管理', link: '/kaoyan/操作系统/第6章 设备管理'},
+                {text: '第7章 网络系统', link: '/kaoyan/操作系统/第7章 网络系统'},
             ]
         }, {
             text: '计算机组成', items: [
