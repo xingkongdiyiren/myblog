@@ -1,5 +1,3 @@
-import {UserConfig} from 'vitepress'
-
 export default {
     // 网站标题
     title: '小白的编程之路',
@@ -44,11 +42,12 @@ export default {
         outline: [0, 6],
         // 导航栏配置
         nav: [
+            {text: '考研4件套', items: getKaoYan()},
             {text: 'Java', items: getJava()},
             {text: 'Spring 全家桶', items: getSpring()},
             {text: '分布式中间件', items: getDistributedMiddleware()},
             {text: '云原生', items: getCloudNative()},
-            {text: '其他', items: getOther()},
+            {text: '运维相关', items: getOther()},
             {text: '架构体系', items: getArchitectureSystem()},
             {text: '实战系列', items: getActualComBatSeries()},
             {
@@ -64,6 +63,7 @@ export default {
             },
         ],
         sidebar: {
+            'kaoyan': getKaoYan(),
             '/Java/': getJava(),
             '/Spring Family/': getSpring(),
             'Distributed Middleware': getDistributedMiddleware(),
@@ -74,6 +74,28 @@ export default {
             'soft skills': getSoftSkills()
         }
     }
+}
+
+function getKaoYan() {
+    return [
+        {
+            text: '操作系统', items: [
+                {text: '第1章 操作系统概述', link: '/kaoyan/操作系统/第1章 操作系统概述'},
+                {text: '第2章 内存管理', link: '/kaoyan/操作系统/第2章 内存管理'},
+                {text: '第3章、进程和线程', link: '/kaoyan/操作系统/第3章、进程和线程'},
+            ]
+        }, {
+            text: '计算机组成', items: [
+                {text: '计算机组成', link: '/kaoyan/计算机组成/计算机组成'},
+
+            ]
+        }, {
+            text: '计算机网络', items: [
+                {text: '计算机网络', link: '/kaoyan/计算机网络/计算机网络'},
+
+            ]
+        },
+    ]
 }
 
 function getJava() {
@@ -309,28 +331,94 @@ function getDistributedMiddleware() {
         {
             text: '分布式锁',
             items: [
-                {text: '01_分布式锁是啥？基于Redis和Zookeeper的分布式锁实现', link: '/Distributed Middleware/分布式锁/01_分布式锁是啥？基于Redis和Zookeeper的分布式锁实现'},
-                {text: '02_基于docker搭建一套3主3从的redis cluster', link: '/Distributed Middleware/分布式锁/02_基于docker搭建一套3主3从的redis cluster'},
-                {text: '03_redis开源客户端框架redisson的初步介绍以及使用', link: '/Distributed Middleware/分布式锁/03_redis开源客户端框架redisson的初步介绍以及使用'},
-                {text: '04_redis分布式锁（一）：可重入锁源码剖析之使用场景介绍', link: '/Distributed Middleware/分布式锁/04_redis分布式锁（一）：可重入锁源码剖析之使用场景介绍'},
-                {text: '05_redis分布式锁（二）：可重入锁源码剖析之lua脚本加锁逻辑', link: '/Distributed Middleware/分布式锁/05_redis分布式锁（二）：可重入锁源码剖析之lua脚本加锁逻辑'},
-                {text: '06_redis分布式锁（三）：可重入锁源码剖析之watchdog维持加锁', link: '/Distributed Middleware/分布式锁/06_redis分布式锁（三）：可重入锁源码剖析之watchdog维持加锁'},
-                {text: '07_redis分布式锁（四）：可重入锁源码剖析之可重入加锁', link: '/Distributed Middleware/分布式锁/07_redis分布式锁（四）：可重入锁源码剖析之可重入加锁'},
-                {text: '08_redis分布式锁（五）：可重入锁源码剖析之锁的互斥阻塞', link: '/Distributed Middleware/分布式锁/08_redis分布式锁（五）：可重入锁源码剖析之锁的互斥阻塞'},
-                {text: '09_redis分布式锁（六）：可重入锁源码剖析之释放锁', link: '/Distributed Middleware/分布式锁/09_redis分布式锁（六）：可重入锁源码剖析之释放锁'},
-                {text: '10_redis分布式锁（七）：可重入锁源码剖析之获取锁超时与自动释放', link: '/Distributed Middleware/分布式锁/10_redis分布式锁（七）：可重入锁源码剖析之获取锁超时与自动释放'},
-                {text: '11_redis分布式锁（八）：可重入锁源码剖析之总结', link: '/Distributed Middleware/分布式锁/11_redis分布式锁（八）：可重入锁源码剖析之总结'},
-                {text: '12_redis分布式锁（九）：公平锁源码剖析之定位加锁源码位置', link: '/Distributed Middleware/分布式锁/12_redis分布式锁（九）：公平锁源码剖析之定位加锁源码位置'},
-                {text: '13_redis分布式锁（十）：公平锁源码剖析之排队加锁', link: '/Distributed Middleware/分布式锁/13_redis分布式锁（十）：公平锁源码剖析之排队加锁'},
-                {text: '14_redis分布式锁（十一）：公平锁源码剖析之队列重排序', link: '/Distributed Middleware/分布式锁/14_redis分布式锁（十一）：公平锁源码剖析之队列重排序'},
-                {text: '15_redis分布式锁（十二）：公平锁源码剖析之释放锁', link: '/Distributed Middleware/分布式锁/15_redis分布式锁（十二）：公平锁源码剖析之释放锁'},
-                {text: '16_redis分布式锁（十三）：MultiLock源码剖析', link: '/Distributed Middleware/分布式锁/16_redis分布式锁（十三）：MultiLock源码剖析'},
-                {text: '17_redis分布式锁（十四）：RedLock源码剖析', link: '/Distributed Middleware/分布式锁/17_redis分布式锁（十四）：RedLock源码剖析'},
-                {text: '18_redis分布式锁（十五）：读写锁源码剖析之加锁逻辑分析', link: '/Distributed Middleware/分布式锁/18_redis分布式锁（十五）：读写锁源码剖析之加锁逻辑分析'},
-                {text: '19_redis分布式锁（十六）：读写锁源码剖析之读锁释放锁', link: '/Distributed Middleware/分布式锁/19_redis分布式锁（十六）：读写锁源码剖析之读锁释放锁'},
-                {text: '20_redis分布式锁（十七）：读写锁源码剖析之释放写锁', link: '/Distributed Middleware/分布式锁/20_redis分布式锁（十七）：读写锁源码剖析之释放写锁'},
-                {text: '21_redis分布式锁（十八）Semaphore', link: '/Distributed Middleware/分布式锁/21_redis分布式锁（十八）Semaphore'},
-                {text: '分布式锁之基于Redis实现小结与源码分析', link: '/Distributed Middleware/分布式锁/分布式锁之基于Redis实现小结与源码分析'},
+                {
+                    text: '01_分布式锁是啥？基于Redis和Zookeeper的分布式锁实现',
+                    link: '/Distributed Middleware/分布式锁/01_分布式锁是啥？基于Redis和Zookeeper的分布式锁实现'
+                },
+                {
+                    text: '02_基于docker搭建一套3主3从的redis cluster',
+                    link: '/Distributed Middleware/分布式锁/02_基于docker搭建一套3主3从的redis cluster'
+                },
+                {
+                    text: '03_redis开源客户端框架redisson的初步介绍以及使用',
+                    link: '/Distributed Middleware/分布式锁/03_redis开源客户端框架redisson的初步介绍以及使用'
+                },
+                {
+                    text: '04_redis分布式锁（一）：可重入锁源码剖析之使用场景介绍',
+                    link: '/Distributed Middleware/分布式锁/04_redis分布式锁（一）：可重入锁源码剖析之使用场景介绍'
+                },
+                {
+                    text: '05_redis分布式锁（二）：可重入锁源码剖析之lua脚本加锁逻辑',
+                    link: '/Distributed Middleware/分布式锁/05_redis分布式锁（二）：可重入锁源码剖析之lua脚本加锁逻辑'
+                },
+                {
+                    text: '06_redis分布式锁（三）：可重入锁源码剖析之watchdog维持加锁',
+                    link: '/Distributed Middleware/分布式锁/06_redis分布式锁（三）：可重入锁源码剖析之watchdog维持加锁'
+                },
+                {
+                    text: '07_redis分布式锁（四）：可重入锁源码剖析之可重入加锁',
+                    link: '/Distributed Middleware/分布式锁/07_redis分布式锁（四）：可重入锁源码剖析之可重入加锁'
+                },
+                {
+                    text: '08_redis分布式锁（五）：可重入锁源码剖析之锁的互斥阻塞',
+                    link: '/Distributed Middleware/分布式锁/08_redis分布式锁（五）：可重入锁源码剖析之锁的互斥阻塞'
+                },
+                {
+                    text: '09_redis分布式锁（六）：可重入锁源码剖析之释放锁',
+                    link: '/Distributed Middleware/分布式锁/09_redis分布式锁（六）：可重入锁源码剖析之释放锁'
+                },
+                {
+                    text: '10_redis分布式锁（七）：可重入锁源码剖析之获取锁超时与自动释放',
+                    link: '/Distributed Middleware/分布式锁/10_redis分布式锁（七）：可重入锁源码剖析之获取锁超时与自动释放'
+                },
+                {
+                    text: '11_redis分布式锁（八）：可重入锁源码剖析之总结',
+                    link: '/Distributed Middleware/分布式锁/11_redis分布式锁（八）：可重入锁源码剖析之总结'
+                },
+                {
+                    text: '12_redis分布式锁（九）：公平锁源码剖析之定位加锁源码位置',
+                    link: '/Distributed Middleware/分布式锁/12_redis分布式锁（九）：公平锁源码剖析之定位加锁源码位置'
+                },
+                {
+                    text: '13_redis分布式锁（十）：公平锁源码剖析之排队加锁',
+                    link: '/Distributed Middleware/分布式锁/13_redis分布式锁（十）：公平锁源码剖析之排队加锁'
+                },
+                {
+                    text: '14_redis分布式锁（十一）：公平锁源码剖析之队列重排序',
+                    link: '/Distributed Middleware/分布式锁/14_redis分布式锁（十一）：公平锁源码剖析之队列重排序'
+                },
+                {
+                    text: '15_redis分布式锁（十二）：公平锁源码剖析之释放锁',
+                    link: '/Distributed Middleware/分布式锁/15_redis分布式锁（十二）：公平锁源码剖析之释放锁'
+                },
+                {
+                    text: '16_redis分布式锁（十三）：MultiLock源码剖析',
+                    link: '/Distributed Middleware/分布式锁/16_redis分布式锁（十三）：MultiLock源码剖析'
+                },
+                {
+                    text: '17_redis分布式锁（十四）：RedLock源码剖析',
+                    link: '/Distributed Middleware/分布式锁/17_redis分布式锁（十四）：RedLock源码剖析'
+                },
+                {
+                    text: '18_redis分布式锁（十五）：读写锁源码剖析之加锁逻辑分析',
+                    link: '/Distributed Middleware/分布式锁/18_redis分布式锁（十五）：读写锁源码剖析之加锁逻辑分析'
+                },
+                {
+                    text: '19_redis分布式锁（十六）：读写锁源码剖析之读锁释放锁',
+                    link: '/Distributed Middleware/分布式锁/19_redis分布式锁（十六）：读写锁源码剖析之读锁释放锁'
+                },
+                {
+                    text: '20_redis分布式锁（十七）：读写锁源码剖析之释放写锁',
+                    link: '/Distributed Middleware/分布式锁/20_redis分布式锁（十七）：读写锁源码剖析之释放写锁'
+                },
+                {
+                    text: '21_redis分布式锁（十八）Semaphore',
+                    link: '/Distributed Middleware/分布式锁/21_redis分布式锁（十八）Semaphore'
+                },
+                {
+                    text: '分布式锁之基于Redis实现小结与源码分析',
+                    link: '/Distributed Middleware/分布式锁/分布式锁之基于Redis实现小结与源码分析'
+                },
             ]
         },
         {
@@ -371,14 +459,7 @@ function getOther() {
             text: '线上环境', items: [
                 {text: 'Linux', link: '/other/线上环境/Linux'}
             ]
-        },
-        {
-            text: '408', items: [
-                {text: '操作系统', link: '/other/408/操作系统'},
-                {text: '计算机组成', link: '/other/408/计算机组成'},
-                {text: '计算机网络', link: '/other/408/计算机网络'},
-            ]
-        },
+        }
     ];
 }
 
