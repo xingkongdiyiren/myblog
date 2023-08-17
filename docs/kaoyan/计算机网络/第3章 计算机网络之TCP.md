@@ -10,8 +10,7 @@
 ## TCP 基本认识
 ### 什么是 TCP ？
 TCP 是**面向连接的、可靠的、基于字节流**的传输层通信协议。
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634279109878-fab67e99-7e1e-4a66-af67-5d400ce33360.webp#from=url&id=azGGu&originHeight=122&originWidth=392&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
-
+![计算机网络.png](../../public/408/计算机网络/18.png)
 - **面向连接**：一定是「一对一」才能连接，不能像 UDP 协议 可以一个主机同时向多个主机发送消息，也就是一对多是无法做到的；
 - **可靠的**：无论的网络链路中出现了怎样的链路变化，TCP 都可以保证一个报文一定能够到达接收端；
 - **字节流**：消息是「没有边界」的，所以无论我们消息有多大都可以进行传输。并且消息是「有序的」，当「前一个」消息没有收到的时候，即使它先收到了后面的字节已经收到，那么也不能扔给应用层去处理，同时对「重复」的报文会自动丢弃。
@@ -21,7 +20,7 @@ TCP 是**面向连接的、可靠的、基于字节流**的传输层通信协议
 TCP 连接是 全双⼯服务(full-duplex service) 的，全双⼯是什么意思？全双⼯指的是主机 A 与另外⼀个主机B 存在⼀条 TCP 连接，那么应⽤程数据就可以从主机 B 流向主机 A 的同时，也从主机 A 流向主机 B。
 
 TCP 会将数据临时存储到连接的发送缓存(send buffer) 中，这个 send buffer 是三次握⼿之间设置的缓存之⼀，然后 TCP 在合适的时间将发送缓存中的数据发送到⽬标主机的接收缓存中，实际上，每⼀端都会有发送缓存和接收缓存，如下所示
-![](https://cdn.nlark.com/yuque/0/2021/png/12417724/1634628836083-1e38fb74-6f76-4e3e-86e6-ba94b6766ed0.png#from=url&id=gLEpr&originHeight=900&originWidth=1682&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/19.png)
 主机之间的发送是以  报⽂段(segment) 进⾏的，那么什么是 Segement 呢？
 
 TCP 会将要传输的数据流分为多个 块(chunk) ，然后向每个 chunk 中添加 TCP 标头，这样就形成了⼀个 TCP段也就是报⽂段。每⼀个报⽂段可以传输的⻓度是有限的，不能超过 **最⼤数据⻓度(Maximum Segment Size) ，俗称  MSS **。在报⽂段向下传输的过程中，会经过链路层，链路层有⼀个  **Maximum Transmission Unit ，最⼤传输单元 MTU**， 即数据链路层上所能通过最⼤数据包的⼤⼩，最⼤传输单元通常与通信接⼝有关。
@@ -31,7 +30,7 @@ TCP 会将要传输的数据流分为多个 块(chunk) ，然后向每个 chunk 
 因为计算机⽹络是分层考虑的，这个很重要，不同层的称呼不⼀样，对于传输层来说，称为报⽂段⽽对⽹络层来说就叫做 IP 数据包，所以，MTU 可以认为是⽹络层能够传输的最⼤ IP 数据包，⽽ MSS（Maximum segmentsize）可以认为是传输层的概念，也就是 TCP 数据包每次能够传输的最⼤量。
 ### TCP报文段结构
 我们先来看看 TCP 头的格式
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634278813117-42dbf2c6-860d-4604-b0a9-633ce1be1084.webp#from=url&id=PaFj9&originHeight=828&originWidth=1053&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/20.png)
 **序列号**：在建立连接时由计算机生成的随机数作为其初始值，通过 SYN 包传给接收端主机，每发送一次数据，就「累加」一次该「数据字节数」的大小。**用来解决网络包乱序问题。**
 **确认应答号**：指下一次「期望」收到的数据的序列号，发送端收到这个确认应答以后可以认为在这个序号以前的数据都已经被正常接收。**用来解决不丢包的问题。**
 **控制位：**
@@ -48,7 +47,7 @@ UDP 不提供复杂的控制机制，利用 IP 提供面向「无连接」的通
 UDP 的全称是⽤户数据报协议(UDP，User Datagram Protocol) ，UDP 为应⽤程序提供了⼀种 ⽆需建⽴连接就可以发送封装的 IP 数据包的⽅法。如果应⽤程序开发⼈员选择的是 UDP ⽽不是 TCP 的话，那么该应⽤程序相当于就是和 IP 直接打交道的
 
 UDP 协议真的非常简，头部只有 8 个字节（ 64 位），UDP 的头部格式如下：
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634279323598-4b5f14c0-f736-4bf6-8921-77e3cabd326f.webp#from=url&id=IGt9H&originHeight=468&originWidth=783&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/21.png)
 
 - 目标和源端口：主要是告诉 UDP 协议应该把报文发给哪个进程。
 - 包长度：该字段保存了 UDP 首部的长度跟数据的长度之和。
@@ -96,20 +95,16 @@ UDP 协议真的非常简，头部只有 8 个字节（ 64 位），UDP 的头�
 ### TCP 连接建立
 #### TCP 三次握手过程和状态变迁
 TCP 是面向连接的协议，所以使用 TCP 前必须先建立连接，而**建立连接是通过三次握手而进行的。**
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634279425943-9fb86b37-a5c6-492c-b2eb-2c50aa03281e.webp#from=url&id=smnEN&originHeight=678&originWidth=813&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
-
+![计算机网络.png](../../public/408/计算机网络/22.png)
 - 一开始，客户端和服务端都处于 CLOSED 状态。先是服务端主动监听某个端口，处于 LISTEN 状态
 
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634279452522-d60dbfc2-c921-4bef-97f6-992c3df0590b.webp#from=url&id=QRUsG&originHeight=652&originWidth=1080&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
-
+![计算机网络.png](../../public/408/计算机网络/23.png)
 - 客户端会随机初始化序号（client_isn），将此序号置于 TCP 首部的「序号」字段中，同时把 SYN 标志位置为 1 ，表示 SYN 报文。接着把第一个 SYN 报文发送给服务端，表示向服务端发起连接，该报文不包含应用层数据，之后客户端处于 SYN-SENT 状态。
 
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634279474222-08be7be3-544f-4281-825b-96727b58e0f7.webp#from=url&id=TxqgK&originHeight=644&originWidth=1080&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
-
+![计算机网络.png](../../public/408/计算机网络/24.png)
 - 服务端收到客户端的 SYN 报文后，首先服务端也随机初始化自己的序号（server_isn），将此序号填入 TCP 首部的「序号」字段中，其次把 TCP 首部的「确认应答号」字段填入 client_isn + 1, 接着把 SYN 和 ACK 标志位置为 1。最后把该报文发给客户端，该报文也不包含应用层数据，之后服务端处于 SYN-RCVD 状态。
 
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634279488810-5f3c68dd-db98-4228-9e88-192b6c464be0.webp#from=url&id=iHs1D&originHeight=644&originWidth=1080&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
-
+![计算机网络.png](../../public/408/计算机网络/25.png)
 - 客户端收到服务端报文后，还要向服务端回应最后一个应答报文，首先该应答报文 TCP 首部 ACK 标志位置为 1 ，其次「确认应答号」字段填入 server_isn + 1 ，最后把报文发送给服务端，这次报文可以携带客户到服务器的数据，之后客户端处于 ESTABLISHED 状态。
 - 服务器收到客户端的应答报文后，也进入 ESTABLISHED 状态。
 
@@ -129,7 +124,7 @@ TCP 是面向连接的协议，所以使用 TCP 前必须先建立连接，而**
 **原因一：避免历史连接**
 简单来说，三次握手的**首要原因是为了防止旧的重复连接初始化造成混乱。**
 网络环境是错综复杂的，往往并不是如我们期望的一样，先发送的数据包，就先到达目标主机，可能会由于网络拥堵等乱七八糟的原因，会使得旧的数据包，先到达目标主机，那么这种情况下 TCP 三次握手是如何避免的呢？
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634279846437-d1ae6e24-e763-4104-86f2-5fc61cc47722.webp#from=url&id=QfFY5&originHeight=1421&originWidth=1052&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/26.png)
 客户端连续发送多次 SYN 建立连接的报文，在网络拥堵等情况下：
 
 - 一个「旧 SYN 报文」比「最新的 SYN 」 报文早到达了服务端；
@@ -151,7 +146,7 @@ TCP 协议的通信双方， 都必须维护一个「序列号」， 序列号�
 - 可以标识发送出去的数据包中， 哪些是已经被对方收到的；
 
 可见，序列号在 TCP 连接中占据着非常重要的作用，所以当客户端发送携带「初始序列号」的 SYN 报文的时候，需要服务端回一个 ACK 应答报文，表示客户端的 SYN 报文已被服务端成功接收，那当服务端发送「初始序列号」给客户端的时候，依然也要得到客户端的应答回应，**这样一来一回，才能确保双方的初始序列号能被可靠的同步。**
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634279957136-f7370f95-ffa2-4dc3-847b-b8e5b2b342d9.webp#from=url&id=v8ins&originHeight=709&originWidth=1080&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/27.png)
 四次握手其实也能够可靠的同步双方的初始化序号，但由于**第二步和第三步可以优化成一步**，所以就成了「三次握手」。
 而两次握手只保证了一方的初始序列号能被对方成功接收，没办法保证双方的初始序列号都能被确认接收。
 
@@ -159,15 +154,14 @@ TCP 协议的通信双方， 都必须维护一个「序列号」， 序列号�
 如果只有「两次握手」，当客户端的 SYN 请求连接在网络中阻塞，客户端没有接收到 ACK 报文，就会重新发送 SYN ，由于没有第三次握手，服务器不清楚客户端是否收到了自己发送的建立连接的 ACK 确认信号，所以每收到一个 SYN 就只能先主动建立一个连接，这会造成什么情况呢？
 
 如果客户端的 SYN 阻塞了，重复发送多次 SYN 报文，那么服务器在收到请求后就会**建立多个冗余的无效链接，造成不必要的资源浪费。**
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634279991203-9e5dbeb9-fe6e-41c3-b4e7-450efac2e381.webp#from=url&id=EAJIL&originHeight=1442&originWidth=837&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/28.png)
 即两次握手会造成消息滞留情况下，服务器重复接受无用的连接请求 SYN 报文，而造成重复分配资源。
 
 ### TCP 连接断开
 #### TCP 四次挥手过程和状态变迁
 天下没有不散的宴席，对于 TCP 连接也是这样， TCP 断开连接是通过**四次挥手**方式。
 双方都可以主动断开连接，断开连接后主机中的「资源」将被释放。
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634280960562-8687218b-14a0-4901-b6b8-1a80b9525f94.webp#from=url&id=U9zdN&originHeight=794&originWidth=753&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
-
+![计算机网络.png](../../public/408/计算机网络/29.png)
 - 客户端打算关闭连接，此时会发送一个 TCP 首部 FIN 标志位被置为 1 的报文，也即 FIN 报文，之后客户端进入 FIN_WAIT_1 状态。
 - 服务端收到该报文后，就向客户端发送 ACK 应答报文，接着服务端进入 CLOSED_WAIT 状态。
 - 客户端收到服务端的 ACK 应答报文后，之后进入 FIN_WAIT_2 状态。
@@ -211,7 +205,7 @@ TIME_WAIT 等待 2 倍的 MSL，比较合理的解释是：网络中可能存在
 
 原因一：防止旧连接的数据包
 假设 TIME-WAIT 没有等待时间或时间过短，被延迟的数据包抵达后会发生什么呢？
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634281064221-2735bb24-bcf4-45ad-bd85-1cff8268c88a.webp#from=url&id=qoNnP&originHeight=1119&originWidth=1080&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/30.png)
 
 - 如上图黄色框框服务端在关闭连接之前发送的 SEQ = 301 报文，被网络延迟了。
 - 这时有相同端口的 TCP 连接被复用后，被延迟的 SEQ = 301 抵达了客户端，那么客户端是有可能正常接收这个过期的报文，这就会产生数据错乱等严重的问题。
@@ -220,7 +214,7 @@ TIME_WAIT 等待 2 倍的 MSL，比较合理的解释是：网络中可能存在
 原因二：保证连接正确关闭
 TIME-WAIT 作用是**等待足够的时间以确保最后的 ACK 能让被动关闭方接收，从而帮助其正常关闭。**
 假设 TIME-WAIT 没有等待时间或时间过短，断开连接会造成什么问题呢？
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634281095685-42d10b09-1d02-4dd0-8b37-12571ff4978b.webp#from=url&id=wsfr9&originHeight=857&originWidth=1080&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/31.png)
 
 - 如上图红色框框客户端四次挥手的最后一个 ACK 报文如果在网络中被丢失了，此时如果客户端 TIME-WAIT 过短或没有，则就直接进入了 CLOSE 状态了，那么服务端则会一直处在 LASE-ACK 状态。
 - 当客户端发起建立连接的 SYN 请求报文后，服务端会发送 RST 报文给客户端，连接建立的过程就会被终止。
@@ -251,7 +245,7 @@ TCP 通过使⽤⼀个  接收窗⼝(receive window) 的变量来提供流量控
 发送端主机会定期发送⼀个 窗⼝探测包 ，这个包⽤于探测接收端主机是否还能够接受数据，当接收端的缓冲区⼀旦⾯临数据溢出的⻛险时，窗⼝⼤⼩的值也随之被设置为⼀个更⼩的值通知发送端，从⽽控制数据发送量。
 
 下⾯是⼀个流量控制示意图
-![](https://cdn.nlark.com/yuque/0/2021/png/12417724/1634459422148-1164692d-037d-4b59-b2da-1fcaecc84c6a.png#from=url&id=xW8Az&originHeight=1080&originWidth=1444&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/32.png)
 发送端主机根据接收端主机的窗⼝⼤⼩进⾏流量控制。由此也可以防⽌发送端主机⼀次发送过⼤数据导致接收端主机⽆法处理。
 
 如上图所示，当主机 B 收到报⽂段 2000 - 2999 之后缓冲区已满，不得不暂时停⽌接收数据。然后主机 A 发送窗⼝探测包，窗⼝探测包⾮常⼩仅仅⼀个字节。然后主机 B 更新缓冲区接收窗⼝⼤⼩并发送窗⼝更新通知给主机A，然后主机 A 再继续发送报⽂段。
@@ -281,7 +275,7 @@ TCP 通过使⽤⼀个  接收窗⼝(receive window) 的变量来提供流量控
 #### 慢启动
 当⼀条 TCP 开始建⽴连接时，cwnd 的值就会初始化为⼀个 MSS 的较⼩值。这就使得初始发送速率⼤概是
 MSS/RTT 字节/秒 ，⽐如要传输 1000 字节的数据，RTT 为 200 ms ，那么得到的初始发送速率⼤概是 40 kb/s。实际情况下可⽤带宽要⽐这个 MSS/RTT ⼤得多，因此 TCP 想要找到最佳的发送速率，可以通过  慢启动(slow-start) 的⽅式，在慢启动的⽅式中，cwnd 的值会初始化为 1 个 MSS，并且每次传输报⽂确认后就会增加⼀个 MSS，cwnd 的值会变为 2 个 MSS，这两个报⽂段都传输成功后每个报⽂段 + 1，会变为 4 个 MSS，依此类推，每成功⼀次 cwnd 的值就会翻倍。如下图所示
-![](https://cdn.nlark.com/yuque/0/2021/png/12417724/1634459682559-905f623f-c7c0-4dd8-bd18-74a2e3a74cb5.png#from=url&id=K1wUO&originHeight=1144&originWidth=1080&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/33.png)
 发送速率不可能会⼀直增⻓，增⻓总有结束的时候，那么何时结束呢？慢启动通常会使⽤下⾯这⼏种⽅式结束发送速率的增⻓。
 
 - 如果在慢启动的发送过程出现丢包的情况，那么 TCP 会将发送⽅的 cwnd 设置为 1 并重新开始慢启动的过程，此时会引⼊⼀个  ssthresh(慢启动阈值) 的概念，它的初始值就是产⽣丢包的 cwnd 的值 / 2，即当检测到拥塞时，ssthresh 的值就是窗⼝值的⼀半。
@@ -298,7 +292,7 @@ MSS/RTT 字节/秒 ，⽐如要传输 1000 字节的数据，RTT 为 200 ms ，�
 ### 重传机制
 TCP 实现可靠传输的方式之一，是通过序列号与确认应答。
 在 TCP 中，当发送端的数据到达接收主机时，接收端主机会返回一个确认应答消息，表示已收到消息。
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634436011152-d87b1ddb-9cd9-414d-a30a-8fd3f9c203e4.webp#from=url&id=Zm8JC&originHeight=677&originWidth=422&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/34.png)
 但在错综复杂的网络，并不一定能如上图那么顺利能正常的数据传输，万一数据在传输过程中丢失了呢？
 所以 TCP 针对数据包丢失的情况，会用**重传机制**解决。
 接下来说说常见的重传机制：
@@ -315,7 +309,8 @@ TCP 会在以下两种情况发生超时重传：
 - 数据包丢失
 - 确认应答丢失
 
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634436131144-f16c5948-c3a7-4f5f-b209-af87b4458fd7.webp#from=url&id=My7nP&originHeight=837&originWidth=1080&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/35.png)
+
 如果超时重发的数据，再次超时的时候，又需要重传的时候，TCP 的策略是**超时间隔加倍。**
 也就是**每当遇到一次超时重传的时候，都会将下一次超时时间间隔设为先前值的两倍。两次超时，就说明网络环境差，不宜频繁反复发送。**
 超时触发重传存在的问题是，超时周期可能相对较长。那是不是可以有更快的方式呢？
@@ -324,7 +319,7 @@ TCP 会在以下两种情况发生超时重传：
 #### 快速重传
 TCP 还有另外一种**快速重传（Fast Retransmit）机制**，它**不以时间为驱动，而是以数据驱动重传**。
 快速重传机制，是如何工作的呢？其实很简单，一图胜千言。
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634436256284-ef23a568-232b-4411-97f0-5fc70469d1fa.webp#from=url&id=UPzFx&originHeight=602&originWidth=647&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/36.png)
 在上图，发送方发出了 1，2，3，4，5 份数据：
 
 - 第一份 Seq1 先送到了，于是就 Ack 回 2；
@@ -345,22 +340,20 @@ TCP 还有另外一种**快速重传（Fast Retransmit）机制**，它**不以�
 还有一种实现重传机制的方式叫：SACK（ Selective Acknowledgment 选择性确认）。
 这种方式需要在 TCP 头部「选项」字段里加一个 SACK 的东西，它**可以将缓存的地图发送给发送方**，这样发送方就可以知道哪些数据收到了，哪些数据没收到，知道了这些信息，就可以**只重传丢失的数据**。
 如下图，发送方收到了三次同样的 ACK 确认报文，于是就会触发快速重发机制，通过 SACK 信息发现只有 200~299 这段数据丢失，则重发时，就只选择了这个 TCP 段进行重复。
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634436435156-6b3447e3-e30c-4efe-8edd-81e29a7e8551.webp#from=url&id=gvWUe&originHeight=632&originWidth=1080&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/37.png)
 如果要支持 SACK，必须双方都要支持。在 Linux 下，可以通过 net.ipv4.tcp_sack 参数打开这个功能（Linux 2.4 后默认打开）。
 #### Duplicate SACK
 Duplicate SACK 又称 D-SACK，其主要**使用了 SACK 来告诉「发送方」有哪些数据被重复接收了。**
 下面举例两个栗子，来说明 D-SACK 的作用。
 
 _栗子一号：ACK 丢包_
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634436865136-488a8f56-d44f-42e9-8699-3669a95e43a3.webp#from=url&id=jU7M2&originHeight=602&originWidth=887&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
-
+![计算机网络.png](../../public/408/计算机网络/38.png)
 - 「接收方」发给「发送方」的两个 ACK 确认应答都丢失了，所以发送方超时后，重传第一个数据包（3000 ~ 3499）
 - **于是「接收方」发现数据是重复收到的，于是回了一个 SACK = 3000~3500**，告诉「发送方」 3000~3500 的数据早已被接收了，因为 ACK 都到了 4000 了，已经意味着 4000 之前的所有数据都已收到，所以这个 SACK 就代表着 D-SACK。
 - 这样「发送方」就知道了，数据没有丢，是「接收方」的 ACK 确认报文丢了。
 
 _栗子二号：网络延时_
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634436897035-9d57d5b6-b9aa-4b43-bd1f-a3bc486f7b00.webp#from=url&id=A6I1f&originHeight=1082&originWidth=962&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
-
+![计算机网络.png](../../public/408/计算机网络/39.png)
 - 数据包（1000~1499） 被网络延迟了，导致「发送方」没有收到 Ack 1500 的确认报文。
 - 而后面报文到达的三个相同的 ACK 确认报文，就触发了快速重传机制，但是在重传后，被延迟的数据包（1000~1499）又到了「接收方」；
 - **所以「接收方」回了一个 SACK=1000~1500，因为 ACK 已经到了 3000，所以这个 SACK 是 D-SACK，表示收到了重复的包。**
@@ -373,4 +366,4 @@ _栗子二号：网络延时_
 3. 可以知道网络中是不是把「发送方」的数据包给复制了;
 
 在 Linux 下可以通过 net.ipv4.tcp_dsack 参数开启/关闭这个功能（Linux 2.4 后默认打开）。
-![](https://cdn.nlark.com/yuque/0/2021/png/12417724/1634799914671-6f89584d-4ac9-4cf1-ad51-30ca2ff04ed2.png#from=url&id=URf2s&originHeight=1620&originWidth=2775&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/40.png)

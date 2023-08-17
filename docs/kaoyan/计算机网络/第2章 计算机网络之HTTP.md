@@ -9,14 +9,14 @@ HTTP的名字「超文本协议传输」，它可以拆成三个部分：
 - 传输
 - 协议
 
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634275969559-bc5d711a-e448-4f66-9b9e-739cd98a431d.webp#from=url&id=jhf94&originHeight=204&originWidth=531&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/12.png)
 ### 1. 「协议」
 在生活中，我们也能随处可见「协议」，例如：
 
 - 刚毕业时会签一个「三方协议」；
 - 找房子时会签一个「租房协议」；
 
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634276004273-e8427e7d-d7ab-4cb6-a253-9ee8bf3d4f26.webp#from=url&id=HEkIV&originHeight=264&originWidth=519&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/13.png)
 生活中的协议，本质上与计算机中的协议是相同的，协议的特点:
 
 - 「**协**」字，代表的意思是必须有**两个以上的参与者**。例如三方协议里的参与者有三个：你、公司、学校三个；租房协议里的参与者有两个：你和房东。
@@ -30,7 +30,7 @@ HTTP 是一个用在计算机世界里的**协议**。它使用计算机能够�
 别轻视了这个简单的动作，它至少包含两项重要的信息。
 HTTP 协议是一个**双向协议**。
 我们在上网冲浪时，浏览器是请求方 A ，百度网站就是应答方 B。双方约定用 HTTP 协议来通信，于是浏览器把请求数据发送给网站，网站再把一些数据返回给浏览器，最后由浏览器渲染在屏幕，就可以看到图片、视频了。
-![](https://cdn.nlark.com/yuque/0/2021/webp/12417724/1634276041242-ac65af28-a7bc-4399-b085-8199959955c9.webp#from=url&id=se1zy&originHeight=271&originWidth=758&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/14.png)
 数据虽然是在 A 和 B 之间传输，但允许中间有**中转或接力**。
 就好像第一排的同学想穿递纸条给最后一排的同学，那么传递的过程中就需要经过好多个同学（中间人），这样的传输方式就从「A < --- > B」，变成了「A <-> N <-> M <-> B」。
 
@@ -85,7 +85,7 @@ HTTPS 也就是在 HTTP 与 TCP 层之间增加了 SSL/TLS 安全传输层，HTT
 
 为了解决上述 TCP 连接问题，HTTP/1.1 提出了⻓连接的通信⽅式，也叫**持久连接**。这种⽅式的好处在于减少了TCP 连接的重复建⽴和断开所造成的额外开销，减轻了服务器端的负载。
 持久连接的特点是，只要任意⼀端没有明确提出断开连接，则保持 TCP 连接状态。
-![](https://cdn.nlark.com/yuque/0/2021/png/12417724/1634278118970-a6864f30-6b81-44a3-8fee-76b4ceb67918.png#from=url&id=SalN7&originHeight=472&originWidth=616&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/15.png)
 ## HTTP 报⽂格式
 我们上⾯描述了⼀下 HTTP 的请求响应过程，相信你对 HTTP 有了更深的认识，下⾯我们就来⼀起认识⼀下 HTTP的报⽂格式是怎样的。
 
@@ -96,11 +96,11 @@ HTTP 协议主要由三⼤部分组成：
 
 其中起始⾏和头部字段并成为  请求头 或者  响应头 ，统称为  Header ；消息正⽂也叫做实体，称为  body 。
 HTTP 协议规定每次发送的报⽂必须要有 Header，但是可以没有 body，也就是说头信息是必须的，实体信息可以没有。⽽且在 header 和 body 之间必须要有⼀个空⾏（CRLF）。
-![](https://cdn.nlark.com/yuque/0/2021/png/12417724/1634276707817-7484575e-4c42-4241-9a4a-93f525737f01.png#from=url&id=EuBDw&originHeight=932&originWidth=1820&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/16.png)
 这幅图需要注意⼀下，如果使⽤  GET ⽅法，是没有实体体的，如果你使⽤的是  POST ⽅法，才会有实体体。当⽤户提交表单时，HTTP 客户端通常使⽤ POST ⽅法；与此相反，HTML 表单的获取通常使⽤ GET ⽅法。HEAD⽅法类似于 GET ⽅法，只不过 HEAD ⽅法不会返回对象。
 
 下⾯我们来看⼀下 HTTP 响应报⽂
-![](https://cdn.nlark.com/yuque/0/2021/png/12417724/1634276729310-1d46cc2f-cac5-4cd6-93fd-4ca3e70726b4.png#from=url&id=F2KEK&originHeight=880&originWidth=1854&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![计算机网络.png](../../public/408/计算机网络/17.png)
 可以看到，请求报⽂和响应报⽂只有请求头是不同的，其他信息均⼀致。
 请求报⽂请求⾏：
 ```
