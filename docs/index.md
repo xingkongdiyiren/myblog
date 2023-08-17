@@ -10,7 +10,7 @@ hero:
       link: /Java/基础/1-面向对象
     - theme: alt
       text: 知识星球（一起学习，100块入门劵）
-      link: https://t.zsxq.com/0cCPM3RP1
+      link: https://img-blog.csdnimg.cn/3f46ee9132bf4ef1894bc84c1954eb23.jpeg
 features:
   - icon: ⚡️
     title: Widely
