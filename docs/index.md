@@ -10,7 +10,7 @@ hero:
       link: /Java/基础/1-面向对象
     - theme: alt
       text: 知识星球（一起学习，100块入门劵）
-      link: https://img-blog.csdnimg.cn/3f46ee9132bf4ef1894bc84c1954eb23.jpeg
+      link: https://cdn.nlark.com/yuque/0/2023/jpeg/1738514/1692257437067-b0cd1c8c-8e84-445b-a51f-85aacc2e6930.jpeg
 features:
   - icon: ⚡️
     title: Widely
@@ -21,4 +21,7 @@ features:
   - icon: 🛠️
     title: Experience
     details: 面试不仅需要技术，同时，也需要一些心理博弈。
+  - icon: ⚡️
+    title: 联系人（加入知识星球）
+    details: 请加我微信：zhz1992435,备注来意
 ---
