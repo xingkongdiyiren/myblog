@@ -461,10 +461,30 @@ function getCloudNative() {
 function getOther() {
     return [
         {
-            text: '协同开发',
+            text: 'git',
             items: [
-                {text: 'Git', link: '/other/协同开发/1、Git'},
-                {text: 'Maven', link: '/other/协同开发/2、Maven'},
+                {text: '为什么需要版本管理', link: '/other/Git/1、为什么需要版本管理'},
+                {text: 'Git入门', link: '/other/Git/2、Git入门'},
+                {text: 'Git分支', link: '/other/Git/3、Git分支'},
+                {text: 'Git分支管理实践', link: '/other/Git/4、Git分支管理实践'},
+                {text: 'Git reset基本操作详解', link: '/other/Git/5、Git reset基本操作详解'},
+                {text: 'Git Rebase操作说明', link: '/other/Git/6、Git Rebase操作说明'},
+                {text: 'Git-tag使用', link: '/other/Git/7、Git-tag使用'},
+                {text: 'Git注意事项（急救清单）', link: '/other/Git/8、Git注意事项（急救清单）.md'},
+                {text: 'ToriseGit的使用', link: '/other/Git/9、ToriseGit的使用'},
+                {text: 'IDEA安装GIT插件', link: '/other/Git/10、IDEA安装GIT插件'},
+                {text: '实践—生成Changelog日志', link: '/other/Git/11、实践—生成Changelog日志'},
+                {text: '实践—开发分支管理模型之阿里AoneFlow', link: '/other/Git/12、实践—开发分支管理模型之阿里AoneFlow'},
+                {text: '实践—代码质量管理之CodeReview', link: '/other/Git/13、实践—代码质量管理之CodeReview'},
+                {text: '实践—提交信息格式化', link: '/other/Git/14、实践—提交信息格式化'},
+                {text: '实践—线上分支代码操作规范问题', link: '/other/Git/15、实践—线上分支代码操作规范问题'},
+                {text: 'GIT技巧', link: '/other/Git/16、GIT技巧'},
+            ]
+        },
+        {
+            text: 'maven',
+            items: [
+                {text: 'Maven', link: '/other/maven/2、Maven'},
             ]
         },
         {
