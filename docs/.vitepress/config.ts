@@ -51,7 +51,7 @@ export default {
             {text: '架构体系', items: getArchitectureSystem()},
             {text: '实战系列', items: getActualComBatSeries()},
             {
-                text: '软技能', items: getSoftSkills()
+                text: '工程能力', items: getSoftSkills()
             },
             {text: '关于个人', items: [{text: '个人介绍', link: '个人介绍/简历介绍'},]},
             {
@@ -525,10 +525,14 @@ function getActualComBatSeries() {
 function getSoftSkills() {
     return [
         {
-            text: '软技能', items: [
+            text: '工程能力', items: [
                 {text: '复盘', link: '/soft skills/复盘'},
                 {text: '沟通', link: '/soft skills/沟通'},
-                {text: '项目管理', link: '/soft skills/项目管理'},
+            ]
+        },
+        {
+            text: '项目管理', items: [
+                {text: '项目管理', link: '/soft skills/pm/项目管理'},
             ]
         }
     ];
